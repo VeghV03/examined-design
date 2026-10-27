@@ -15,8 +15,9 @@ The patches are the record of how the prototype was made. Running them again giv
 for byte, and CI checks that it does.
 
 **What you need.** Python 3.9 or later. For renders, Python Playwright and a Chromium
-(`pip install playwright && python3 -m playwright install chromium`). For the checks, Node 20 and
-`npm install` in `checks/`. Nothing at all to open the prototype: double-click it.
+(`pip install playwright && python3 -m playwright install chromium`). For the checks, Node 22 or
+later (CI runs 24) and `npm install` in `checks/`. Nothing at all to open the prototype:
+double-click it.
 
 ## The scope
 
