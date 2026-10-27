@@ -1,155 +1,179 @@
 {
   "version": 1,
-  "mappedAt": "2026-09-17",
+  "mappedAt": "2026-10-27",
   "units": {
-    "epic:first-run": {
-      "issue_id": "E-first-run",
+    "epic:a": {
+      "issue_id": "E-a",
       "summary": "First run",
-      "hash": "4df0359fa14c",
+      "hash": "b5bfa82b00fb",
       "jira": null
     },
-    "epic:manage": {
-      "issue_id": "E-manage",
+    "epic:b": {
+      "issue_id": "E-b",
       "summary": "Manage files",
-      "hash": "c9d74d4d1ec7",
+      "hash": "d42564871426",
       "jira": null
     },
-    "epic:find": {
-      "issue_id": "E-find",
+    "epic:c": {
+      "issue_id": "E-c",
       "summary": "Find things",
-      "hash": "3a1fbba74f6d",
+      "hash": "681b3a160dcd",
       "jira": null
     },
-    "epic:account": {
-      "issue_id": "E-account",
+    "epic:d": {
+      "issue_id": "E-d",
       "summary": "Manage account",
-      "hash": "8ae12150d488",
+      "hash": "dd0cda82611b",
       "jira": null
     },
-    "story:first-run/arrive": {
-      "issue_id": "S-first-run-arrive",
+    "story:a/a1": {
+      "issue_id": "S-a-a1",
       "summary": "Arrive with no account",
-      "hash": "ce5d91faeb8f",
+      "hash": "fb534661193f",
       "jira": null
     },
-    "subtask:first-run-welcome": {
-      "issue_id": "T-first-run-welcome",
+    "subtask:welcome": {
+      "issue_id": "T-welcome",
       "summary": "Welcome",
-      "hash": "0300c04fc763",
+      "hash": "bdc7e4c44564",
       "jira": null
     },
-    "spike:d-001": {
-      "issue_id": "K-d-001",
+    "spike:decision-d1": {
+      "issue_id": "K-decision-d1",
       "summary": "Decide: does the cost estimate appear before saving, or after?",
-      "hash": "ab18b2372c76",
+      "hash": "eba1e379b607",
       "jira": null
     },
-    "story:manage/see": {
-      "issue_id": "S-manage-see",
+    "story:b/b1": {
+      "issue_id": "S-b-b1",
       "summary": "See what is here",
-      "hash": "878a82142c4d",
+      "hash": "c407283cc688",
       "jira": null
     },
-    "story:first-run/first-file": {
-      "issue_id": "S-first-run-first-file",
+    "story:a/a2": {
+      "issue_id": "S-a-a2",
       "summary": "Add the first file",
-      "hash": "84ae56bae35f",
+      "hash": "7a76d4649f3d",
       "jira": null
     },
     "subtask:files-empty": {
       "issue_id": "T-files-empty",
-      "summary": "Files, empty",
-      "hash": "bd936c3663b2",
+      "summary": "Files, nothing here yet",
+      "hash": "ab0ff953b092",
       "jira": null
     },
-    "subtask:files-list": {
-      "issue_id": "T-files-list",
+    "subtask:files": {
+      "issue_id": "T-files",
       "summary": "Files",
-      "hash": "f2de3fb6f981",
+      "hash": "44d3359b2e34",
+      "jira": null
+    },
+    "subtask:files-reading": {
+      "issue_id": "T-files-reading",
+      "summary": "Files, reading",
+      "hash": "cd2d1061e485",
+      "jira": null
+    },
+    "subtask:files-read-failed": {
+      "issue_id": "T-files-read-failed",
+      "summary": "Files, could not be read",
+      "hash": "881237119d69",
       "jira": null
     },
     "subtask:sync-failed": {
       "issue_id": "T-sync-failed",
       "summary": "Sync did not finish",
-      "hash": "42a04fd69126",
+      "hash": "1ce0daf703c1",
       "jira": null
     },
-    "story:manage/move": {
-      "issue_id": "S-manage-move",
+    "story:b/b2": {
+      "issue_id": "S-b-b2",
       "summary": "Move a file into a folder",
-      "hash": "419cd9c09843",
+      "hash": "9196af34f8f6",
       "jira": null
     },
-    "subtask:files-move": {
-      "issue_id": "T-files-move",
-      "summary": "Move to folder",
-      "hash": "45598d52105d",
+    "subtask:move-share": {
+      "issue_id": "T-move-share",
+      "summary": "Moving into a shared folder",
+      "hash": "da4385cf740c",
       "jira": null
     },
-    "story:manage/remove": {
-      "issue_id": "S-manage-remove",
-      "summary": "Remove a file",
-      "hash": "5766e199fed6",
+    "story:b/b3": {
+      "issue_id": "S-b-b3",
+      "summary": "Remove a file, or remove it for good",
+      "hash": "329604b36db6",
       "jira": null
     },
-    "subtask:files-removed": {
-      "issue_id": "T-files-removed",
+    "subtask:removed": {
+      "issue_id": "T-removed",
       "summary": "Removed",
-      "hash": "acfce5bf31f6",
+      "hash": "96cb905aea49",
       "jira": null
     },
-    "story:manage/share": {
-      "issue_id": "S-manage-share",
+    "subtask:removed-empty": {
+      "issue_id": "T-removed-empty",
+      "summary": "Removed, nothing here",
+      "hash": "8772000d20be",
+      "jira": null
+    },
+    "subtask:remove-for-good-checking": {
+      "issue_id": "T-remove-for-good-checking",
+      "summary": "Remove for good, checking",
+      "hash": "676a08506e52",
+      "jira": null
+    },
+    "story:b/b4": {
+      "issue_id": "S-b-b4",
       "summary": "Share a file",
-      "hash": "30ecc93a73ea",
+      "hash": "66a08f042837",
       "jira": null
     },
     "subtask:share-failed": {
       "issue_id": "T-share-failed",
       "summary": "Share did not go out",
-      "hash": "f62af8936392",
+      "hash": "27537d6e29a5",
       "jira": null
     },
-    "story:manage/estimate": {
-      "issue_id": "S-manage-estimate",
+    "story:b/b5": {
+      "issue_id": "S-b-b5",
       "summary": "See the cost before saving",
-      "hash": "3aa89b6e30b9",
+      "hash": "aa91c8bb34ca",
       "jira": null
     },
-    "spike:d-002": {
-      "issue_id": "K-d-002",
-      "summary": "Decide: does search include removed files?",
-      "hash": "9aa16a882bd7",
-      "jira": null
-    },
-    "story:find/search": {
-      "issue_id": "S-find-search",
+    "story:c/c1": {
+      "issue_id": "S-c-c1",
       "summary": "Search for a file",
-      "hash": "9906edb6dab2",
+      "hash": "bbbef0ab3c26",
       "jira": null
     },
     "subtask:search-results": {
       "issue_id": "T-search-results",
       "summary": "Search results",
-      "hash": "190f3a07ca8f",
+      "hash": "df7b06c45694",
       "jira": null
     },
     "subtask:search-empty": {
       "issue_id": "T-search-empty",
-      "summary": "No matches",
-      "hash": "df8c2b6fd8d2",
+      "summary": "Search, nothing matches",
+      "hash": "619d6292c20c",
       "jira": null
     },
-    "story:account/storage": {
-      "issue_id": "S-account-storage",
+    "subtask:search-so-far": {
+      "issue_id": "T-search-so-far",
+      "summary": "Search, some folders unread",
+      "hash": "20837932d443",
+      "jira": null
+    },
+    "story:d/d1": {
+      "issue_id": "S-d-d1",
       "summary": "Check storage used",
-      "hash": "4bbd638dc849",
+      "hash": "8205d4901b3c",
       "jira": null
     },
-    "subtask:settings-storage": {
-      "issue_id": "T-settings-storage",
+    "subtask:storage": {
+      "issue_id": "T-storage",
       "summary": "Storage",
-      "hash": "0f7a0cf30ada",
+      "hash": "c8e1d6f82dbb",
       "jira": null
     }
   }

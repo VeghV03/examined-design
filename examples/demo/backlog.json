@@ -4,192 +4,224 @@
     "key": "FILES",
     "style": "company-managed"
   },
-  "title": "File manager",
-  "summary": "4 epics · 9 stories · 10 sub-tasks · 2 spikes · 5 blocked · 1 with nothing serving it · 9 still need their \"so I can\"",
+  "title": "File manager · demo",
+  "summary": "4 epics · 9 stories · 15 sub-tasks · 1 spike · 6 blocked · 1 with nothing serving it · 9 still need their \"so I can\"",
   "units": [
     {
-      "key": "epic:first-run",
+      "key": "epic:a",
       "kind": "epic",
-      "id": "first-run",
-      "issue_id": "E-first-run",
+      "id": "a",
+      "issue_id": "E-a",
       "name": "First run",
       "rank": 1,
       "parent": null,
       "blocked_by": [],
       "labels": [
-        "first-run",
+        "A",
         "ux"
       ],
-      "hash": "4df0359fa14c",
-      "description": "Steps: Arrive with no account, Add the first file."
+      "hash": "b5bfa82b00fb",
+      "description": "Arrive with no account and add the first file."
     },
     {
-      "key": "epic:manage",
+      "key": "epic:b",
       "kind": "epic",
-      "id": "manage",
-      "issue_id": "E-manage",
+      "id": "b",
+      "issue_id": "E-b",
       "name": "Manage files",
       "rank": 2,
       "parent": null,
       "blocked_by": [],
       "labels": [
-        "manage",
+        "B",
         "ux"
       ],
-      "hash": "c9d74d4d1ec7",
-      "description": "Steps: See what is here, Move a file into a folder, Remove a file, Share a file, See the cost before saving."
+      "hash": "d42564871426",
+      "description": "See what is here, move, remove and share files."
     },
     {
-      "key": "epic:find",
+      "key": "epic:c",
       "kind": "epic",
-      "id": "find",
-      "issue_id": "E-find",
+      "id": "c",
+      "issue_id": "E-c",
       "name": "Find things",
       "rank": 3,
       "parent": null,
       "blocked_by": [],
       "labels": [
-        "find",
+        "C",
         "ux"
       ],
-      "hash": "3a1fbba74f6d",
-      "description": "Steps: Search for a file."
+      "hash": "681b3a160dcd",
+      "description": "Search by name."
     },
     {
-      "key": "epic:account",
+      "key": "epic:d",
       "kind": "epic",
-      "id": "account",
-      "issue_id": "E-account",
+      "id": "d",
+      "issue_id": "E-d",
       "name": "Manage account",
       "rank": 4,
       "parent": null,
       "blocked_by": [],
       "labels": [
-        "account",
+        "D",
         "ux"
       ],
-      "hash": "8ae12150d488",
-      "description": "Steps: Check storage used."
+      "hash": "dd0cda82611b",
+      "description": "Check storage."
     },
     {
-      "key": "story:first-run/arrive",
+      "key": "story:a/a1",
       "kind": "story",
-      "id": "first-run/arrive",
-      "issue_id": "S-first-run-arrive",
+      "id": "a/a1",
+      "issue_id": "S-a-a1",
       "name": "Arrive with no account",
       "rank": 5,
-      "parent": "epic:first-run",
+      "parent": "epic:a",
       "blocked_by": [],
       "labels": [
-        "first-run",
+        "A",
         "ux"
       ],
       "size": "M",
-      "hash": "ce5d91faeb8f",
-      "description": "I want to arrive with no account, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: an entrance assumes no prior state. Why the design is like this: a periodic visitor has forgotten what this is for. Trade-off accepted: a screen between a returning person and their files.\n\nAcceptance criteria\n- Welcome renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 3 criteria, 0 blockers. A count, not an estimate."
+      "hash": "fb534661193f",
+      "description": "When the first time the app opens on this computer, I want to arrive with no account, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: What this is for, and that nothing added can be deleted from the network. A periodic visitor arrives having forgotten what this is for; the first thing it says is what is true here.\n\nAcceptance criteria\n- Welcome renders with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 0 blockers. A count, not an estimate."
     },
     {
-      "key": "subtask:first-run-welcome",
+      "key": "subtask:welcome",
       "kind": "subtask",
-      "id": "first-run-welcome",
-      "issue_id": "T-first-run-welcome",
+      "id": "welcome",
+      "issue_id": "T-welcome",
       "name": "Welcome",
       "rank": 6,
-      "parent": "story:first-run/arrive",
+      "parent": "story:a/a1",
       "blocked_by": [],
       "labels": [
-        "First-run",
+        "entrance",
         "ux"
       ],
-      "hash": "0300c04fc763",
-      "description": "an entrance assumes no prior state"
+      "hash": "bdc7e4c44564",
+      "description": "A periodic visitor arrives having forgotten what this is for; the first thing it says is what is true here. Required text (proto: Welcome): \"A place for your files\" · \"What you add stays for as long as it is paid for. Nothing here is deleted: removing a file hides it, and the space never comes back. What you share, you cannot take back.\" · \"Add your first file\"."
     },
     {
-      "key": "spike:d-001",
+      "key": "spike:decision-d1",
       "kind": "spike",
-      "id": "d-001",
-      "issue_id": "K-d-001",
+      "id": "decision-d1",
+      "issue_id": "K-decision-d1",
       "name": "Decide: does the cost estimate appear before saving, or after?",
       "rank": 7,
-      "parent": "epic:manage",
+      "parent": "epic:b",
       "blocked_by": [],
       "labels": [
         "decision",
         "ux"
       ],
-      "hash": "ab18b2372c76",
-      "description": "Does the cost estimate appear before saving, or after?\n\nAudit found one step in the agreed scope that nothing serves.\n\nOption: Before saving\n- buys: nobody is surprised by a charge\n- costs: the estimate must be computed on a file that does not exist yet\n- kills: the one-click save\n\nOption: After saving, before publishing\n- buys: an exact number instead of an estimate\n- costs: the person has already committed\n- kills: the promise that nothing happens until you choose\n\nRight if: Before wins if arrivals are price-sensitive rather than already committed.\n\nThis is not an estimate task. Nothing it blocks should be built until it is answered, because both options are still live and they build different things."
+      "hash": "eba1e379b607",
+      "description": "Does the cost estimate appear before saving, or after?\n\nThe scope asks for an estimate before saving (B5); nothing serves it yet.\n\nOption: Before saving\n- buys: nobody is surprised by a charge\n- costs: the estimate is computed on a file that is not saved yet\n- kills: the one-click save\n- the case for it: An irreversible spend should never rest on a number the person has not seen.\n\nOption: After saving, before publishing\n- buys: an exact number instead of an estimate\n- costs: the person has already committed\n- kills: the promise that nothing happens until you choose\n- the case for it: An exact figure is honest where an estimate may be wrong, and a wrong estimate shown before saving is a claim the product cannot stand behind.\n\nRight if: Before wins if arrivals are price-sensitive rather than already committed.\n\nThis is not an estimate task. Nothing it blocks should be built until it is answered, because both options are still live and they build different things."
     },
     {
-      "key": "story:manage/see",
+      "key": "story:b/b1",
       "kind": "story",
-      "id": "manage/see",
-      "issue_id": "S-manage-see",
+      "id": "b/b1",
+      "issue_id": "S-b-b1",
       "name": "See what is here",
       "rank": 8,
-      "parent": "epic:manage",
+      "parent": "epic:b",
       "blocked_by": [
-        "spike:d-001",
-        "story:first-run/arrive"
+        "spike:decision-d1",
+        "story:a/a1"
       ],
       "labels": [
-        "manage",
+        "B",
         "ux"
       ],
-      "size": "M",
-      "hash": "878a82142c4d",
-      "description": "When I am in Files, empty and choose Add a file, I want to see what is here, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: the list is where a periodic visitor lands. Why the design is like this: a visitor has forgotten what this is for, and the files are the memory. Trade-off accepted: no room for status.\n\nAcceptance criteria\n- Files renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 2 blockers. A count, not an estimate.\n\nNote: Sync did not finish serves no step in the agreed scope. It is reached from this story, so it is built here — confirm the scope should name it.\n\nWaits for: Decide: does the cost estimate appear before saving, or after? (K-d-001), Arrive with no account (S-first-run-arrive)"
+      "size": "L",
+      "hash": "c407283cc688",
+      "description": "When I am in Files, nothing here yet and choose Add a file, I want to see what is here, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: What is here, and when the list was read. The files are the memory a periodic visitor comes back for, so the list is the place.\n\nAcceptance criteria\n- Files, Files, reading, Files, could not be read, Sync did not finish render with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Files, could not be read says what did not happen and what is still true, and names no cause it cannot know\n- Sync did not finish says what did not happen and what is still true, and names no cause it cannot know\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: L — 4 sub-tasks, 6 criteria, 2 blockers. A count, not an estimate.\n\nWaits for: Decide: does the cost estimate appear before saving, or after? (K-decision-d1), Arrive with no account (S-a-a1)"
     },
     {
-      "key": "story:first-run/first-file",
+      "key": "story:a/a2",
       "kind": "story",
-      "id": "first-run/first-file",
-      "issue_id": "S-first-run-first-file",
+      "id": "a/a2",
+      "issue_id": "S-a-a2",
       "name": "Add the first file",
       "rank": 9,
-      "parent": "epic:first-run",
+      "parent": "epic:a",
       "blocked_by": [
-        "story:manage/see"
+        "story:b/b1"
       ],
       "labels": [
-        "first-run",
+        "A",
         "ux"
       ],
       "size": "M",
-      "hash": "84ae56bae35f",
-      "description": "When I am in Welcome and choose Add your first file, I want to add the first file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: seven places had no empty state, and an empty place is the most common screen any of them will ever show. Why the design is like this: one component makes the decision once. Trade-off accepted: the copy has to be generic enough to fit all of them.\n\nAcceptance criteria\n- Files, empty renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- Files, empty says what to do next, not only that there is nothing here\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: See what is here (S-manage-see)"
+      "hash": "7a76d4649f3d",
+      "description": "When I am in Welcome and choose Add your first file, I want to add the first file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: Where it went, and who can open it: only you.\n\nAcceptance criteria\n- Files, nothing here yet renders with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Files, nothing here yet says what this place is for and the one action that fills it\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 1 sub-task, 5 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: See what is here (S-b-b1)"
     },
     {
       "key": "subtask:files-empty",
       "kind": "subtask",
       "id": "files-empty",
       "issue_id": "T-files-empty",
-      "name": "Files, empty",
+      "name": "Files, nothing here yet",
       "rank": 10,
-      "parent": "story:first-run/first-file",
+      "parent": "story:a/a2",
       "blocked_by": [],
       "labels": [
-        "Files",
+        "state",
         "ux"
       ],
-      "hash": "bd936c3663b2",
-      "description": "seven places had no empty state, and an empty place is the most common screen any of them will ever show"
+      "hash": "ab0ff953b092",
+      "description": "Required text (proto: FilesEmpty): \"Add\" · \"Nothing here yet\" · \"Files you add appear here. Only you can open them until you share one.\" · \"Add a file\"."
     },
     {
-      "key": "subtask:files-list",
+      "key": "subtask:files",
       "kind": "subtask",
-      "id": "files-list",
-      "issue_id": "T-files-list",
+      "id": "files",
+      "issue_id": "T-files",
       "name": "Files",
       "rank": 11,
-      "parent": "story:manage/see",
+      "parent": "story:b/b1",
       "blocked_by": [],
       "labels": [
-        "Files",
+        "place",
         "ux"
       ],
-      "hash": "f2de3fb6f981",
-      "description": "the list is where a periodic visitor lands"
+      "hash": "44d3359b2e34",
+      "description": "The files are the memory a periodic visitor comes back for, so the list is the place. Required text (proto: Files): \"Add\" · \"Files\" · \"Move to folder…\" · \"Remove\" · \"Search files\"."
+    },
+    {
+      "key": "subtask:files-reading",
+      "kind": "subtask",
+      "id": "files-reading",
+      "issue_id": "T-files-reading",
+      "name": "Files, reading",
+      "rank": 12,
+      "parent": "story:b/b1",
+      "blocked_by": [],
+      "labels": [
+        "state",
+        "ux"
+      ],
+      "hash": "cd2d1061e485",
+      "description": "Required text (proto: FilesReading): \"Add\" · \"Files\" · \"Reading your files…\"."
+    },
+    {
+      "key": "subtask:files-read-failed",
+      "kind": "subtask",
+      "id": "files-read-failed",
+      "issue_id": "T-files-read-failed",
+      "name": "Files, could not be read",
+      "rank": 13,
+      "parent": "story:b/b1",
+      "blocked_by": [],
+      "labels": [
+        "state",
+        "ux"
+      ],
+      "hash": "881237119d69",
+      "description": "A failure state: the list was asked for and did not come back. Required text (proto: FilesReadFailed): \"Add\" · \"We couldn't read your files just now.\" · \"The network answered, but your list didn't come back. What you see is how it stood at 09:12.\" · \"Try again\" · \"Files\"."
     },
     {
       "key": "subtask:sync-failed",
@@ -197,100 +229,134 @@
       "id": "sync-failed",
       "issue_id": "T-sync-failed",
       "name": "Sync did not finish",
-      "rank": 12,
-      "parent": "story:manage/see",
-      "blocked_by": [],
-      "labels": [
-        "Files",
-        "ux"
-      ],
-      "hash": "42a04fd69126",
-      "description": "Refused: changes made on this device have not reached the others. Not a crash — the local copy is safe and is exactly what the failure state says it is. Serves no named step; reached from Files."
-    },
-    {
-      "key": "story:manage/move",
-      "kind": "story",
-      "id": "manage/move",
-      "issue_id": "S-manage-move",
-      "name": "Move a file into a folder",
-      "rank": 13,
-      "parent": "epic:manage",
-      "blocked_by": [],
-      "labels": [
-        "manage",
-        "ux"
-      ],
-      "size": "M",
-      "hash": "419cd9c09843",
-      "description": "When I am in Files and choose Move to folder…, I want to move a file into a folder, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: every other file manager has taught people that moving a file into a shared folder shares it. Why the design is like this: the worst outcome is a file reaching the wrong person, so the sentence earns a screen. Trade-off accepted: one more step in a common action.\n\nAcceptance criteria\n- Move to folder renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 3 criteria, 0 blockers. A count, not an estimate."
-    },
-    {
-      "key": "subtask:files-move",
-      "kind": "subtask",
-      "id": "files-move",
-      "issue_id": "T-files-move",
-      "name": "Move to folder",
       "rank": 14,
-      "parent": "story:manage/move",
+      "parent": "story:b/b1",
       "blocked_by": [],
       "labels": [
-        "Files",
+        "state",
         "ux"
       ],
-      "hash": "45598d52105d",
-      "description": "every other file manager has taught people that moving a file into a shared folder shares it"
+      "hash": "1ce0daf703c1",
+      "description": "A failure state: changes made here have not reached the other devices. Required text (proto: SyncFailed): \"Add\" · \"Changes on this computer haven't reached your other devices.\" · \"Your copy here is untouched.\" · \"Retry\" · \"Files\"."
     },
     {
-      "key": "story:manage/remove",
+      "key": "story:b/b2",
       "kind": "story",
-      "id": "manage/remove",
-      "issue_id": "S-manage-remove",
-      "name": "Remove a file",
+      "id": "b/b2",
+      "issue_id": "S-b-b2",
+      "name": "Move a file into a folder",
       "rank": 15,
-      "parent": "epic:manage",
-      "blocked_by": [],
-      "labels": [
-        "manage",
-        "ux"
-      ],
-      "size": "M",
-      "hash": "5766e199fed6",
-      "description": "When I am in Files and choose Remove, I want to remove a file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: every trash metaphor promises the item is gone and the space comes back. This product delivers neither, so the name was the lie. Why the design is like this: the button says Remove, so the place is its past tense, and the verb and the noun agree. Trade-off accepted: one unfamiliar word.\n\nAcceptance criteria\n- Removed renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- Removed has an empty state — an empty place is the most common screen it will ever show\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 0 blockers. A count, not an estimate."
-    },
-    {
-      "key": "subtask:files-removed",
-      "kind": "subtask",
-      "id": "files-removed",
-      "issue_id": "T-files-removed",
-      "name": "Removed",
-      "rank": 16,
-      "parent": "story:manage/remove",
-      "blocked_by": [],
-      "labels": [
-        "Files",
-        "ux"
-      ],
-      "hash": "acfce5bf31f6",
-      "description": "every trash metaphor promises the item is gone and the space comes back. This product delivers neither, so the name was the lie"
-    },
-    {
-      "key": "story:manage/share",
-      "kind": "story",
-      "id": "manage/share",
-      "issue_id": "S-manage-share",
-      "name": "Share a file",
-      "rank": 17,
-      "parent": "epic:manage",
+      "parent": "epic:b",
       "blocked_by": [
-        "story:manage/see"
+        "story:b/b1"
       ],
       "labels": [
-        "manage",
+        "B",
         "ux"
       ],
       "size": "M",
-      "hash": "30ecc93a73ea",
-      "description": "When Files reports it, I want to share a file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: a failure state is a screen where something was refused, timed out, ran out or cannot be done here. Why the design is like this: the person needs to know what did not happen and what is still true. Trade-off accepted: a screen to maintain.\n\nAcceptance criteria\n- Share did not go out renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- Share did not go out says what is still true, not only what failed: Refused: the share was asked for and did not come back. Not an empty result — nobody gained access, and the person needs to know what is still true.\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 1 blocker. A count, not an estimate.\n\nNote: Share did not go out: The scope document still calls this place Trash. The scope document has not seen this claim — bring it level before this ships.\n\nWaits for: See what is here (S-manage-see)"
+      "hash": "9196af34f8f6",
+      "description": "When I am in Files and choose Move to folder…, I want to move a file into a folder, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: Who gains access before anything moves. Every other way of moving is silent; this one widens who can open the file, so it asks.\n\nAcceptance criteria\n- Moving into a shared folder renders with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: See what is here (S-b-b1)"
+    },
+    {
+      "key": "subtask:move-share",
+      "kind": "subtask",
+      "id": "move-share",
+      "issue_id": "T-move-share",
+      "name": "Moving into a shared folder",
+      "rank": 16,
+      "parent": "story:b/b2",
+      "blocked_by": [],
+      "labels": [
+        "detour",
+        "ux"
+      ],
+      "hash": "da4385cf740c",
+      "description": "Every other way of moving is silent; this one widens who can open the file, so it asks. Required text (proto: MoveShare): \"Add\" · \"Files\" · \"Move notes.md to Client work?\" · \"Client work is shared with Anna and Ben. Moving notes.md in shares it with them, and with every later version.\" · \"Cancel\" · \"Move and share\"."
+    },
+    {
+      "key": "story:b/b3",
+      "kind": "story",
+      "id": "b/b3",
+      "issue_id": "S-b-b3",
+      "name": "Remove a file, or remove it for good",
+      "rank": 17,
+      "parent": "epic:b",
+      "blocked_by": [],
+      "labels": [
+        "B",
+        "ux"
+      ],
+      "size": "L",
+      "hash": "329604b36db6",
+      "description": "When I am in Files and choose Remove, I want to remove a file, or remove it for good, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: Removing hides; nothing comes back as space.\n\nAcceptance criteria\n- Removed, Removed, nothing here, Remove for good, checking render with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Removed, nothing here says what this place is for and the one action that fills it\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: L — 3 sub-tasks, 5 criteria, 0 blockers. A count, not an estimate."
+    },
+    {
+      "key": "subtask:removed",
+      "kind": "subtask",
+      "id": "removed",
+      "issue_id": "T-removed",
+      "name": "Removed",
+      "rank": 18,
+      "parent": "story:b/b3",
+      "blocked_by": [],
+      "labels": [
+        "place",
+        "ux"
+      ],
+      "hash": "96cb905aea49",
+      "description": "Required text (proto: Removed): \"Removed\" · \"Put back\" · \"Remove for good\"."
+    },
+    {
+      "key": "subtask:removed-empty",
+      "kind": "subtask",
+      "id": "removed-empty",
+      "issue_id": "T-removed-empty",
+      "name": "Removed, nothing here",
+      "rank": 19,
+      "parent": "story:b/b3",
+      "blocked_by": [],
+      "labels": [
+        "state",
+        "ux"
+      ],
+      "hash": "8772000d20be",
+      "description": "Required text (proto: RemovedEmpty): \"Nothing removed\" · \"Files you remove wait here, still stored and still paid for, until you put them back.\"."
+    },
+    {
+      "key": "subtask:remove-for-good-checking",
+      "kind": "subtask",
+      "id": "remove-for-good-checking",
+      "issue_id": "T-remove-for-good-checking",
+      "name": "Remove for good, checking",
+      "rank": 20,
+      "parent": "story:b/b3",
+      "blocked_by": [],
+      "labels": [
+        "detour",
+        "ux"
+      ],
+      "hash": "676a08506e52",
+      "description": "Required text (proto: RemoveForGoodChecking): \"Removed\" · \"Put back\" · \"Remove for good\" · \"plan-v1.pdf leaves Removed. There is no Put back after this.\" · \"This will not\" · \"delete it from the network\" · \"give you the 220 KB back\" · \"take back copies anyone already has\" · \"Checking who can open it…\" · \"Cancel\" · \"Remove it for good\"."
+    },
+    {
+      "key": "story:b/b4",
+      "kind": "story",
+      "id": "b/b4",
+      "issue_id": "S-b-b4",
+      "name": "Share a file",
+      "rank": 21,
+      "parent": "epic:b",
+      "blocked_by": [
+        "story:b/b1"
+      ],
+      "labels": [
+        "B",
+        "ux"
+      ],
+      "size": "M",
+      "hash": "66a08f042837",
+      "description": "When Files shows that a share was asked for and did not come back, I want to share a file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: What happened, and what is still true.\n\nAcceptance criteria\n- Share did not go out renders with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Share did not go out says what did not happen and what is still true, and names no cause it cannot know\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 1 sub-task, 5 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: See what is here (S-b-b1)"
     },
     {
       "key": "subtask:share-failed",
@@ -298,68 +364,51 @@
       "id": "share-failed",
       "issue_id": "T-share-failed",
       "name": "Share did not go out",
-      "rank": 18,
-      "parent": "story:manage/share",
+      "rank": 22,
+      "parent": "story:b/b4",
       "blocked_by": [],
       "labels": [
-        "Sharing",
+        "state",
         "ux"
       ],
-      "hash": "f62af8936392",
-      "description": "Refused: the share was asked for and did not come back. Not an empty result — nobody gained access, and the person needs to know what is still true."
+      "hash": "27537d6e29a5",
+      "description": "A failure state: a share was asked for and did not come back. Required text (proto: ShareFailed): \"Add\" · \"Sharing budget-2026.xlsx with Chidi didn't finish.\" · \"Nobody new can open it. Anna and Ben still can.\" · \"Try again\" · \"Files\"."
     },
     {
-      "key": "story:manage/estimate",
+      "key": "story:b/b5",
       "kind": "story",
-      "id": "manage/estimate",
-      "issue_id": "S-manage-estimate",
+      "id": "b/b5",
+      "issue_id": "S-b-b5",
       "name": "See the cost before saving",
-      "rank": 19,
-      "parent": "epic:manage",
+      "rank": 23,
+      "parent": "epic:b",
       "blocked_by": [],
       "labels": [
-        "manage",
+        "B",
         "ux"
       ],
       "size": "S",
-      "hash": "3aa89b6e30b9",
-      "description": "I want to see the cost before saving, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe agreed scope asks for a cost estimate before saving. Nothing serves it. Websites have one and files do not.\n\nNothing serves this yet. The scope asks for it and no screen was designed for it; the design work is part of this story.\n\nAcceptance criteria\n- something serves this step — a screen exists, is routed to, and is in the model\n\nSize hint: S — 0 sub-tasks, 1 criterion, 0 blockers. A count, not an estimate."
+      "hash": "aa91c8bb34ca",
+      "description": "I want to see the cost before saving, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe scope asks for it and nothing serves it. Decision D1 is open: before saving, or after.\n\nNothing serves this yet. The scope asks for it and no screen was designed for it; the design work is part of this story.\n\nAcceptance criteria\n- something serves this step: a board exists, is linked to, and is in the prototype\n\nSize hint: S — 0 sub-tasks, 1 criterion, 0 blockers. A count, not an estimate."
     },
     {
-      "key": "spike:d-002",
-      "kind": "spike",
-      "id": "d-002",
-      "issue_id": "K-d-002",
-      "name": "Decide: does search include removed files?",
-      "rank": 20,
-      "parent": "epic:find",
-      "blocked_by": [],
-      "labels": [
-        "decision",
-        "ux"
-      ],
-      "hash": "9aa16a882bd7",
-      "description": "Does search include removed files?\n\nSearch was designed after Removed already existed; the two features were not built together.\n\nOption: Include, marked as removed\n- buys: a file someone half-remembers deleting is still findable\n- costs: every result needs a removed indicator, even when nothing is removed\n- kills: a result list that is just files\n\nOption: Exclude removed files entirely\n- buys: search only ever returns things the person can use right now\n- costs: a removed file is invisible to search on top of being out of the list\n- kills: finding a file you deleted an hour ago without opening Removed\n\nRight if: Include wins if removal is read as \"out of the way\" rather than \"gone\" — see files-removed.\n\nThis is not an estimate task. Nothing it blocks should be built until it is answered, because both options are still live and they build different things."
-    },
-    {
-      "key": "story:find/search",
+      "key": "story:c/c1",
       "kind": "story",
-      "id": "find/search",
-      "issue_id": "S-find-search",
+      "id": "c/c1",
+      "issue_id": "S-c-c1",
       "name": "Search for a file",
-      "rank": 21,
-      "parent": "epic:find",
+      "rank": 24,
+      "parent": "epic:c",
       "blocked_by": [
-        "spike:d-002",
-        "story:first-run/arrive"
+        "story:a/a1"
       ],
       "labels": [
-        "find",
+        "C",
         "ux"
       ],
-      "size": "M",
-      "hash": "9906edb6dab2",
-      "description": "When I am in Files and choose Search files, I want to search for a file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: a returning visitor forgets where a file ended up more often than they forget its name. Why the design is like this: search is the faster path once the name is known and the location is not. Trade-off accepted: this ships ahead of d-002, so whether a removed file can appear here is still open.\n\nAcceptance criteria\n- Search results renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 2 blockers. A count, not an estimate.\n\nNote: No matches serves no step in the agreed scope. It is reached from this story, so it is built here — confirm the scope should name it.\n\nWaits for: Decide: does search include removed files? (K-d-002), Arrive with no account (S-first-run-arrive)"
+      "size": "L",
+      "hash": "bbbef0ab3c26",
+      "description": "When I am in Files and choose Search files, I want to search for a file, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: What matched, and what could not be looked in.\n\nAcceptance criteria\n- Search results, Search, nothing matches, Search, some folders unread render with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Search, nothing matches says what this place is for and the one action that fills it\n- Search, some folders unread says what did not happen and what is still true, and names no cause it cannot know\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: L — 3 sub-tasks, 6 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Arrive with no account (S-a-a1)"
     },
     {
       "key": "subtask:search-results",
@@ -367,66 +416,82 @@
       "id": "search-results",
       "issue_id": "T-search-results",
       "name": "Search results",
-      "rank": 22,
-      "parent": "story:find/search",
+      "rank": 25,
+      "parent": "story:c/c1",
       "blocked_by": [],
       "labels": [
-        "Search",
+        "place",
         "ux"
       ],
-      "hash": "190f3a07ca8f",
-      "description": "a returning visitor forgets where a file ended up more often than they forget its name"
+      "hash": "df7b06c45694",
+      "description": "Required text (proto: SearchResults): \"Add\" · \"Results for “plan”\" · \"Clear search\"."
     },
     {
       "key": "subtask:search-empty",
       "kind": "subtask",
       "id": "search-empty",
       "issue_id": "T-search-empty",
-      "name": "No matches",
-      "rank": 23,
-      "parent": "story:find/search",
+      "name": "Search, nothing matches",
+      "rank": 26,
+      "parent": "story:c/c1",
       "blocked_by": [],
       "labels": [
-        "Search",
+        "state",
         "ux"
       ],
-      "hash": "df8c2b6fd8d2",
-      "description": "files_empty already exists for \"nothing added yet\"; a search with no results is a different empty — something exists, this query does not match it Serves no named step; reached from Search results."
+      "hash": "619d6292c20c",
+      "description": "Required text (proto: SearchEmpty): \"Add\" · \"Nothing matches “invoice”\" · \"We only match names. If the words are inside a document, we cannot see them.\" · \"Clear search\"."
     },
     {
-      "key": "story:account/storage",
+      "key": "subtask:search-so-far",
+      "kind": "subtask",
+      "id": "search-so-far",
+      "issue_id": "T-search-so-far",
+      "name": "Search, some folders unread",
+      "rank": 27,
+      "parent": "story:c/c1",
+      "blocked_by": [],
+      "labels": [
+        "state",
+        "ux"
+      ],
+      "hash": "20837932d443",
+      "description": "A failure state: two folders were asked for and did not come back. Required text (proto: SearchSoFar): \"Add\" · \"Nothing found so far for “invoice”\" · \"Couldn't look in 2 folders just now.\" · \"The network answered, but they didn't come back.\" · \"Try again\" · \"Clear search\"."
+    },
+    {
+      "key": "story:d/d1",
       "kind": "story",
-      "id": "account/storage",
-      "issue_id": "S-account-storage",
+      "id": "d/d1",
+      "issue_id": "S-d-d1",
       "name": "Check storage used",
-      "rank": 24,
-      "parent": "epic:account",
+      "rank": 28,
+      "parent": "epic:d",
       "blocked_by": [
-        "story:first-run/arrive"
+        "story:a/a1"
       ],
       "labels": [
-        "account",
+        "D",
         "ux"
       ],
       "size": "M",
-      "hash": "4bbd638dc849",
-      "description": "When I am in Files and choose Storage details, I want to check storage used, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nContext: this is the one screen the policy zones \"advanced\" — the jargon a file has no business using anywhere else is allowed here on purpose. Why the design is like this: a periodic visitor never needs upload-chunking mechanics; the person who does has clicked through on purpose. Trade-off accepted: a level of indirection between the number and the person asking about it.\n\nAcceptance criteria\n- Storage renders at every supported width with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every route declared from these screens binds to a label that is on the board  [routes]\n- Storage has an empty state — an empty place is the most common screen it will ever show\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 1 sub-task, 4 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Arrive with no account (S-first-run-arrive)"
+      "hash": "8205d4901b3c",
+      "description": "I want to check storage used, so I can ⟨outcome — one line, from whoever knows why this step exists⟩.\n\nThe product makes clear: How much is used, until when, and when it was checked.\n\nAcceptance criteria\n- Storage renders with nothing off the frame, a heading, labelled controls, targets at or over the minimum, and no text under its contrast threshold in either theme  [overflow, structure, target-size, contrast]\n- every link declared from these boards binds to a label on the board  [routes]\n- every required string in the sub-tasks appears in the build exactly as quoted\n- Storage has an empty state: an empty place is the most common screen it will show\n- no term the vocabulary policy forbids appears outside the zone that allows it  [vocab]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 1 sub-task, 5 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Arrive with no account (S-a-a1)"
     },
     {
-      "key": "subtask:settings-storage",
+      "key": "subtask:storage",
       "kind": "subtask",
-      "id": "settings-storage",
-      "issue_id": "T-settings-storage",
+      "id": "storage",
+      "issue_id": "T-storage",
       "name": "Storage",
-      "rank": 25,
-      "parent": "story:account/storage",
+      "rank": 29,
+      "parent": "story:d/d1",
       "blocked_by": [],
       "labels": [
-        "Account",
+        "place",
         "ux"
       ],
-      "hash": "0f7a0cf30ada",
-      "description": "this is the one screen the policy zones \"advanced\" — the jargon a file has no business using anywhere else is allowed here on purpose"
+      "hash": "c8e1d6f82dbb",
+      "description": "Required text (proto: Storage): \"Storage\" · \"Add space\" · \"More time\"."
     }
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "target": { "mode": "prototype", "file": "../examples/demo/prototype.html" },
+  "executablePath": null,
+  "scrimSelector": ".scrim",
+  "cellChildSelector": ".chip",
+  "densityBudget": 400,
+  "targetSize": 24
+}

@@ -1,15 +1,15 @@
-# standalone-backlog — a Jira structure with no `model/` anywhere
+# standalone-backlog — a Jira structure with no prototype
 
 An invoicing product, planned from a two-page brief. No screens exist, no design system, no scope
-document in the pack's format — this is the path for a project that has none of the rest of it.
+document in the harness's format — this is the path for a project that has none of the rest of it.
 
 ```sh
-python3 ../../scaffold/backlog/build_backlog.py --plan backlog.plan.json
+python3 ../../backlog/build_backlog.py --plan backlog.plan.json
 ```
 
 `backlog.plan.json` is hand-written, the way `jira-backlog` writes one after reading a brief, crawling
 a running app, or reading a router. It is the only thing the front end produces; everything after it
-is the same emitter the measured-design path uses.
+is the same emitter the prototype path uses.
 
 ## What to look at
 
@@ -37,7 +37,8 @@ exists; you cannot send an invoice before creating one. The click path between s
 
 **The criteria say what must never happen.** Creating an invoice must not send anything; a failed bank
 connection has to say no money moved. Those are the criteria worth writing — the ones that stop a
-plausible implementation being the wrong one. Three of them name a check that proves them.
+plausible implementation being the wrong one. Three of them name a check that tests them; a pass
+there means only that the check did not refute them.
 
 ## The config
 

@@ -1,0 +1,371 @@
+/* examined-design viewer chrome. Deliberately not the product's own design system:
+   a reviewer must never mistake the tool for the thing being reviewed.
+   --fw / --fh are the board frame, set from DATA.meta.frame at start-up. */
+:root{
+  color-scheme:dark;
+  --app-bg:#16181c; --app-panel:#1c1f24; --app-sunk:#0f1114;
+  --app-line:#2b2f36; --app-line-2:#565c66;
+  --app-ink:#e8eaed; --app-dim:#969ba5; --app-hot:#ff8a3d;
+  --app-in:#5ab8ff;
+  --app-warn:#ffc14d; --app-bad:#ff7a66; --app-new:#5fd39b;
+}
+html,body{margin:0;height:100%}
+body{background:var(--app-bg);color:var(--app-ink);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:13px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+#root{height:100vh;display:flex}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#ffffff1f;border-radius:6px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* sidebar — navigation layer 2: every screen, filed under the scope step it serves */
+.p-side{width:300px;flex:none;background:var(--app-panel);border-right:1px solid var(--app-line);
+  display:flex;flex-direction:column;min-height:0}
+.p-brand{padding:14px 16px 12px;border-bottom:1px solid var(--app-line);flex:none;
+  display:flex;flex-direction:column;gap:9px}
+.p-brand h1{margin:0;font-size:14px;font-weight:600;letter-spacing:-.01em}
+.p-brand p{margin:0;font-size:11.5px;color:var(--app-dim)}
+.p-find{display:flex;align-items:center;gap:7px;background:var(--app-bg);
+  border:1px solid var(--app-line);border-radius:6px;padding:0 9px;height:29px}
+.p-find input{flex:1;min-width:0;background:none;border:0;outline:none;color:var(--app-ink);
+  font-size:12.5px}
+.p-find input::placeholder{color:var(--app-dim)}
+.p-find span{color:var(--app-dim);font-size:11px;flex:none}
+.p-list{flex:1;overflow-y:auto;padding:8px 10px 30px;scroll-behavior:smooth}
+/* Every step stays open, as asked — which makes the list six screenfuls, so the
+   six journeys need a way to be one click apart rather than one scroll hunt. */
+.p-jumps{display:flex;gap:4px;padding:0 16px 12px;flex:none}
+.p-jumps button{flex:1;height:24px;border:1px solid var(--app-line-2);border-radius:5px;
+  font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--app-dim)}
+.p-jumps button:hover{border-color:var(--app-hot);color:var(--app-ink)}
+.p-jumps button[aria-current="true"]{background:var(--app-hot);border-color:var(--app-hot);
+  color:#1a1206}
+
+/* journey → step → screen */
+.p-jh{width:100%;text-align:left;display:flex;align-items:baseline;gap:8px;
+  padding:11px 6px 4px;margin:0}
+.p-jh .id{font-family:ui-monospace,monospace;font-size:11px;font-weight:700;
+  color:var(--app-hot);flex:none;width:14px}
+.p-jh .nm{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--app-ink);flex:1}
+.p-jh .ct{font-size:10.5px;color:var(--app-line-2);flex:none}
+.p-jend{padding:0 6px 8px 28px;margin:0;font-size:11.5px;color:var(--app-dim);line-height:1.45}
+.p-shwrap{margin:0;font-size:inherit;font-weight:inherit}
+.p-sh{width:100%;text-align:left;display:flex;align-items:baseline;gap:8px;padding:5px 6px 3px 8px;
+  border-radius:5px}
+.p-sh:hover{background:#ffffff0a}
+.p-sh .id{font-family:ui-monospace,monospace;font-size:10.5px;color:var(--app-line-2);
+  flex:none;width:20px;font-weight:600}
+.p-sh .nm{font-size:12px;color:var(--app-dim);flex:1;min-width:0}
+.p-sh[data-open="1"] .id{color:var(--app-hot)}
+.p-sh[data-open="1"] .nm{color:var(--app-ink)}
+.p-row{display:flex;align-items:center;gap:8px;width:100%;text-align:left;position:relative;
+  padding:4px 8px 4px 36px;border-radius:5px;font-size:12.5px;color:var(--app-dim);line-height:1.35}
+.p-row:hover{background:#ffffff0d;color:var(--app-ink)}
+.p-row[aria-current="true"]{background:#ffffff17;color:var(--app-ink);font-weight:500}
+.p-row .p-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-row .p-also{font-size:10px;color:var(--app-line-2);font-family:ui-monospace,monospace;flex:none}
+.p-row .p-hit{color:var(--app-in);font-size:10.5px}
+.p-dot{width:6px;height:6px;border-radius:999px;flex:none}
+.p-gaprow{padding:3px 8px 5px 36px;margin:0;font-size:11.5px;color:var(--app-warn);
+  line-height:1.4;display:flex;gap:6px}
+.p-gaprow b{font-weight:600;flex:none}
+/* A hidden screen leaves a line saying so. "Where did Offline go" is the first
+   question the switch creates, and it has to be answered where it was asked. */
+.p-hidrow{padding:2px 8px 5px 36px;margin:0;font-size:11px;color:var(--app-bad);
+  line-height:1.4;opacity:.85}
+.p-row[data-bad="1"]::before{content:'';position:absolute;left:23px;top:50%;width:5px;
+  height:5px;margin-top:-3px;border-radius:1px;background:var(--app-bad);opacity:.8}
+
+/* main */
+.p-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.p-bar{min-height:48px;flex:none;display:flex;align-items:center;gap:12px;padding:0 14px;
+  border-bottom:1px solid var(--app-line);background:var(--app-panel)}
+.p-who{display:flex;flex-direction:column;min-width:0;flex:1;padding:6px 0}
+.p-who b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;display:flex;align-items:center;gap:8px}
+.p-who span{font-size:11px;color:var(--app-dim);overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.p-who .sid{font-family:ui-monospace,monospace;color:var(--app-hot);font-weight:600}
+.p-ctl{display:flex;align-items:center;gap:6px;flex:none}
+/* Two segmented controls side by side read as one six-button control, and the
+   first two buttons then look like views. A hairline is enough to say they are
+   different questions: which screens, and how to look at them. */
+.p-ctl .sep{width:1px;height:20px;background:var(--app-line);flex:none;margin:0 1px}
+.p-seg{display:flex;background:var(--app-bg);border:1px solid var(--app-line);
+  border-radius:7px;padding:2px;gap:2px;flex:none}
+.p-seg button{padding:4px 10px;border-radius:5px;font-size:12px;color:var(--app-dim)}
+.p-seg button[aria-pressed="true"]{background:#ffffff1c;color:var(--app-ink);font-weight:500}
+.p-btn{padding:5px 11px;border:1px solid var(--app-line-2);border-radius:6px;font-size:12px;
+  color:var(--app-dim);white-space:nowrap}
+.p-btn:hover{border-color:var(--app-dim);color:var(--app-ink)}
+.p-btn[aria-pressed="true"]{background:var(--app-hot);border-color:var(--app-hot);
+  color:#1a1206;font-weight:600}
+.p-btn:disabled{opacity:.35;cursor:default}
+.p-btn.p-icon{padding:5px 9px;font-family:ui-monospace,monospace}
+.p-badge{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+  padding:2px 6px;border-radius:3px;flex:none}
+
+.p-body{flex:1;min-height:0;display:flex}
+.p-stagewrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:var(--app-sunk);overflow:auto;
+  background-image:radial-gradient(circle at 1px 1px,#ffffff0a 1px,transparent 0);
+  background-size:22px 22px}
+/* the scaled board keeps its full-size layout box, so it is wrapped in a box sized
+   to the scaled result — otherwise it overflows and refuses to centre */
+.p-fit{flex:none;position:relative}
+.p-stage{width:var(--fw);height:var(--fh);position:absolute;top:0;left:0;transform-origin:top left;
+  box-shadow:0 24px 70px #00000080;border-radius:8px;overflow:hidden}
+
+/* notes */
+.p-notes{width:352px;flex:none;background:var(--app-panel);border-left:1px solid var(--app-line);
+  overflow-y:auto;padding:16px 18px 40px;display:flex;flex-direction:column;gap:16px}
+.p-nsec{display:flex;flex-direction:column;gap:6px}
+.p-nh{margin:0;font-weight:600;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--app-dim);
+  font-weight:600}
+.p-notes p{margin:0;font-size:12.5px;line-height:1.6;color:var(--app-ink)}
+.p-notes p.dim{color:var(--app-dim)}
+/* the scope block is quoted, so it is marked as quotation and not as our voice */
+.p-scope{border-left:2px solid var(--app-in);padding-left:12px;display:flex;
+  flex-direction:column;gap:8px}
+.p-scope .cs{display:flex;align-items:baseline;gap:7px}
+.p-scope .cs .id{font-family:ui-monospace,monospace;font-size:11px;font-weight:700;
+  color:var(--app-in)}
+.p-scope .cs .nm{font-size:12.5px;font-weight:600}
+.p-scope .lb{font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--app-dim);font-weight:600}
+.p-scope .tx{font-size:12px;line-height:1.6;color:var(--app-ink)}
+.p-fold{display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+  color:var(--app-dim);padding:0}
+.p-fold:hover{color:var(--app-ink)}
+.p-fold .car{font-family:ui-monospace,monospace;font-size:12px;color:var(--app-hot);
+  width:10px;flex:none;letter-spacing:0}
+.p-fold .ct{margin-left:auto;color:var(--app-line-2);letter-spacing:0;
+  text-transform:none;font-size:10.5px;font-weight:400}
+.p-dec{border-left:2px solid var(--app-hot);padding-left:12px;display:flex;
+  flex-direction:column;gap:5px}
+.p-dec .t{font-size:12.5px;font-weight:600;line-height:1.45}
+.p-dec .b{font-size:12px;line-height:1.6;color:var(--app-dim)}
+.p-gates{display:flex;flex-wrap:wrap;gap:4px}
+.p-gate{border:1px solid var(--app-line-2);border-radius:4px;padding:2px 6px;font-size:10.5px;
+  font-family:ui-monospace,monospace;color:var(--app-dim)}
+.p-gate:hover{border-color:var(--app-hot);color:var(--app-ink)}
+.p-tbl tr[data-focus="1"] td{background:#ff8a3d1f}
+.p-gate.named{border-color:var(--app-in);color:var(--app-in)}
+.p-gate.draft{border-style:dashed}
+.p-jump{display:flex;flex-wrap:wrap;gap:5px}
+.p-jump button{border:1px solid var(--app-line-2);border-radius:5px;padding:3px 8px;
+  font-size:11.5px;color:var(--app-dim);display:flex;align-items:center;gap:5px}
+.p-jump button:hover{border-color:var(--app-hot);color:var(--app-ink)}
+.p-jump button .a{font-family:ui-monospace,monospace;font-size:10px}
+.p-jump.out button .a{color:var(--app-hot)}
+.p-jump.inb button .a{color:var(--app-in)}
+.p-jump.inb button:hover{border-color:var(--app-in)}
+
+/* overview grid */
+.p-grid{flex:1;min-height:0;overflow-y:auto;padding:20px 24px 60px;background:var(--app-sunk)}
+/* the navigation model: places down the page, what each one can look like and
+   what opens from it beside it. Kinds are told apart by shape rather than by
+   hue alone — a state is a filled chip, a detour is an outlined one with an
+   arrow — because the two carry different obligations for a developer. */
+.p-ia{padding:22px 26px 60px;overflow:auto;flex:1}
+.p-ia .lede{max-width:74ch;margin-bottom:22px}
+.p-ia .lede h2{margin:0 0 6px;font-size:15px;color:var(--app-ink);font-weight:600}
+.p-ia .lede p{margin:0 0 8px;font-size:12.5px;color:var(--app-dim);line-height:1.55}
+.p-kinds{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
+.p-kinds div{flex:1;min-width:150px;border-top:2px solid var(--app-line-2);padding-top:7px}
+.p-kinds b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--app-ink);margin-bottom:3px}
+.p-kinds span{font-size:11.5px;color:var(--app-dim);line-height:1.5}
+.p-place{border-top:1px solid var(--app-line);padding:14px 0;display:grid;
+  grid-template-columns:220px minmax(0,1fr);gap:0 20px}
+.p-place.sub{padding-left:26px}
+.p-place .ph{display:flex;flex-direction:column;gap:3px}
+.p-place .ph button{text-align:left;font-size:13.5px;font-weight:600;color:var(--app-ink)}
+.p-place .ph button:hover{color:var(--app-hot)}
+.p-place .ph em{font-style:normal;font-size:11.5px;color:var(--app-dim);line-height:1.45}
+.p-place .pb{display:flex;flex-direction:column;gap:9px;min-width:0}
+.p-row2{display:flex;gap:8px;align-items:baseline}
+.p-row2 > b{flex:none;width:60px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--app-line-2);font-weight:600;padding-top:3px}
+.p-row2 .ch{display:flex;gap:5px;flex-wrap:wrap;min-width:0}
+.p-st,.p-dt{font-size:11.5px;border-radius:5px;padding:3px 8px;text-align:left;line-height:1.35}
+.p-st{background:#ffffff12;color:var(--app-ink);border:1px solid transparent}
+.p-st:hover{background:#ffffff22}
+.p-dt{border:1px dashed var(--app-line-2);color:var(--app-ink)}
+.p-dt:hover{border-color:var(--app-hot);color:var(--app-hot)}
+.p-st i,.p-dt i{font-style:normal;color:var(--app-dim)}
+.p-none{font-size:11.5px;color:var(--app-line-2)}
+.p-gsec{margin-bottom:30px}
+.p-gsec h2{margin:0 0 3px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--app-dim);font-weight:600}
+.p-gsec h2 em{font-style:normal;color:var(--app-hot);font-family:ui-monospace,monospace}
+.p-gsec p{margin:0 0 14px;font-size:12px;color:var(--app-dim);max-width:70ch}
+.p-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:16px}
+.p-tile{display:flex;flex-direction:column;gap:7px;text-align:left;padding:0}
+.p-thumbwrap{position:relative;width:100%;aspect-ratio:16/10;border-radius:6px;
+  overflow:hidden;background:#fff;border:1px solid var(--app-line);flex:none}
+.p-tile:hover .p-thumbwrap{border-color:var(--app-hot)}
+.p-tile[data-bad="1"] .p-thumbwrap{border-color:#ff7a6659}
+.p-tile[data-bad="1"] .p-tlabel b{color:#ffbdb2}
+.p-tile[aria-current="true"] .p-thumbwrap{border-color:var(--app-hot);
+  box-shadow:0 0 0 2px #ff8a3d55}
+.p-thumb{width:var(--fw);height:var(--fh);position:absolute;top:0;left:0;transform-origin:top left;
+  pointer-events:none}
+.p-tlabel{display:flex;align-items:center;gap:7px;min-width:0}
+.p-tlabel b{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.p-tlabel span{font-size:10.5px;color:var(--app-dim);font-family:ui-monospace,monospace;flex:none}
+
+/* flow map — navigation layer 1: one lane per journey, steps left to right */
+.p-map{flex:1;min-height:0;overflow:auto;background:var(--app-sunk);padding:20px 26px 40px;
+  background-image:radial-gradient(circle at 1px 1px,#ffffff0a 1px,transparent 0);
+  background-size:22px 22px}
+.p-mapinner{position:relative}
+.p-lane{position:absolute;left:0;border-top:1px solid var(--app-line);
+  display:flex;align-items:flex-start}
+.p-lane .lh{width:142px;flex:none;padding:8px 12px 0 0;display:flex;flex-direction:column;gap:3px}
+.p-lane .lh .id{font-family:ui-monospace,monospace;font-size:15px;font-weight:700;
+  color:var(--app-hot);line-height:1}
+.p-lane .lh .nm{font-size:11.5px;font-weight:600;line-height:1.3}
+.p-lane .lh .en{font-size:10.5px;color:var(--app-dim);line-height:1.4}
+.p-shead{position:absolute;font-size:10px;line-height:1.3;color:var(--app-dim);
+  display:flex;flex-direction:column;gap:1px}
+/* The step id and its counts share one line so the head is always two lines
+   tall and never reaches into the row below it. */
+.p-shead .hr{display:flex;gap:5px;align-items:baseline;white-space:nowrap;overflow:hidden}
+.p-shead b{font-family:ui-monospace,monospace;font-size:10.5px;color:var(--app-line-2);
+  font-weight:700;letter-spacing:.04em}
+.p-shead i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  display:block}
+.p-shead .gp{color:var(--app-warn)}
+.p-shead .hd{color:var(--app-bad)}
+/* Showing the failures and marking them are the same request: a reader who
+   turns them on wants to know which of the 68 they are. */
+.p-node[data-bad="1"]{border-color:#ff7a6659}
+.p-node[data-bad="1"] .nm{color:#ffbdb2}
+.p-node[data-bad="1"][data-sel="1"] .nm{color:var(--app-ink)}
+.p-node{position:absolute;width:152px;box-sizing:border-box;padding:5px 8px;
+  border:1px solid var(--app-line-2);border-radius:6px;background:var(--app-panel);
+  font-size:11.5px;line-height:1.25;text-align:left;display:flex;align-items:center;gap:6px}
+.p-node:hover{border-color:var(--app-hot);z-index:4}
+.p-node[data-sel="1"]{border-color:var(--app-hot);background:#2a1f14;color:var(--app-ink);
+  font-weight:600;z-index:5;box-shadow:0 0 0 3px #ff8a3d33}
+.p-node[data-rel="out"]{border-color:var(--app-hot);z-index:3}
+.p-node[data-rel="in"]{border-color:var(--app-in);z-index:3}
+.p-node[data-orphan="1"]{border-style:dashed}
+/* 152px will not hold a label and a title on one line, so the hole stacks:
+   what it is, then what is missing. */
+.p-hole{position:absolute;width:152px;box-sizing:border-box;padding:3px 8px 4px;
+  border:1px dashed var(--app-warn);border-radius:6px;background:#3a2c0e66;
+  color:var(--app-warn);display:flex;flex-direction:column;gap:0;cursor:help}
+.p-hole .nm{font-size:10.5px;line-height:1.25;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.p-hole::before{content:'not drawn';font-size:8px;letter-spacing:.07em;
+  text-transform:uppercase;opacity:.8;line-height:1.3}
+.p-node .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-node .dup{font-size:9px;font-family:ui-monospace,monospace;color:var(--app-line-2);flex:none}
+.p-edges{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.p-key{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:0 0 12px;
+  font-size:11.5px;color:var(--app-dim)}
+.p-key .grp{display:flex;gap:6px;align-items:center;flex:none;white-space:nowrap}
+.p-key .grp.zoom{margin-left:auto}
+.p-key i{width:20px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block;
+  vertical-align:middle;margin-right:5px}
+.p-key .sep{width:1px;height:16px;background:var(--app-line);flex:none}
+.p-lanechip{border:1px solid var(--app-line-2);border-radius:5px;width:26px;height:24px;
+  font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--app-dim)}
+.p-lanechip:hover{border-color:var(--app-hot);color:var(--app-ink)}
+.p-lanechip[aria-current="true"]{background:var(--app-hot);border-color:var(--app-hot);
+  color:#1a1206}
+
+/* what's open */
+.p-open{flex:1;min-height:0;overflow-y:auto;padding:22px 26px 60px;background:var(--app-sunk)}
+.p-open h2{margin:0 0 4px;font-size:13px;font-weight:600;letter-spacing:.01em}
+.p-open .sub{margin:0 0 14px;font-size:12px;color:var(--app-dim);max-width:78ch;line-height:1.55}
+.p-open section{margin-bottom:34px;max-width:1100px}
+.p-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.p-tbl th{text-align:left;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--app-dim);font-weight:600;padding:0 10px 6px 0;border-bottom:1px solid var(--app-line)}
+.p-tbl td{padding:8px 10px 8px 0;border-bottom:1px solid var(--app-line);vertical-align:top;
+  line-height:1.5}
+.p-tbl td.id{font-family:ui-monospace,monospace;color:var(--app-hot);font-weight:700;
+  white-space:nowrap;width:52px}
+.p-tbl td.num{font-variant-numeric:tabular-nums;color:var(--app-dim);white-space:nowrap}
+.p-tbl td.why{color:var(--app-dim)}
+.p-tbl a,.p-tbl button.lnk{color:var(--app-in);text-align:left}
+.p-tbl button.lnk:hover{text-decoration:underline}
+.p-kind{font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;
+  padding:2px 6px;border-radius:3px;white-space:nowrap}
+.p-made{display:flex;flex-direction:column;gap:3px}
+.p-made div{display:flex;gap:8px;align-items:baseline;font-size:12px}
+.p-made .c{font-family:ui-monospace,monospace;color:var(--app-ink);width:22px;flex:none;
+  text-align:right;font-variant-numeric:tabular-nums}
+.p-made .n{flex:1;min-width:0}
+.p-made .r{font-size:10.5px;color:var(--app-line-2);flex:none}
+
+.p-foot{flex:none;padding:9px 14px;border-top:1px solid var(--app-line);background:var(--app-panel);
+  font-size:11.5px;color:var(--app-dim);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.p-foot kbd{font-family:ui-monospace,monospace;background:#ffffff14;border-radius:3px;
+  padding:1px 5px;color:var(--app-ink)}
+
+/* hotspots */
+.p-stage [data-hot]{cursor:pointer;position:relative}
+.p-stage:focus,.p-stage:focus-visible{outline:none}
+:focus-visible{outline:2px solid var(--app-hot);outline-offset:2px}
+/* the ring lives inside a scaled subtree, so it is divided back out */
+.p-stage [data-hot]:focus-visible{outline:calc(3px / var(--s,1)) solid var(--app-hot)}
+.p-stage[data-showhot="1"] [data-hot]{outline:calc(2px / var(--s,1)) dashed var(--app-hot)}
+.p-stage [data-hot]:hover{outline:calc(2px / var(--s,1)) solid var(--app-hot)}
+@media (forced-colors:active){
+  .p-stage [data-hot]:hover,.p-stage[data-showhot="1"] [data-hot]{
+    outline-color:Highlight;forced-color-adjust:none}
+}
+.p-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* display:none left a keyboard user at 200% zoom with two buttons and no way
+   to reach any other screen. Overlay it instead. */
+/* A screen or the register is often what someone wants to attach to a ticket.
+   Printing used to give the whole dark chrome and a board cropped to the pane. */
+@media print{
+  html,body{height:auto;overflow:visible;background:#fff;color:#111}
+  :root{color-scheme:light}
+  #root{height:auto;display:block}
+  .p-side,.p-bar,.p-foot,.p-key,.p-jumps,.p-sr{display:none!important}
+  .p-main{display:block}
+  .p-body{display:block}
+  .p-stagewrap{padding:0;background:#fff;overflow:visible;display:block}
+  .p-fit{width:auto!important;height:auto!important}
+  .p-stage{position:static;transform:none!important;box-shadow:none;
+    border:1px solid #ccc;width:var(--fw);height:var(--fh);zoom:.62}
+  .p-notes{width:auto;border:0;background:#fff;color:#111;padding:18px 0 0;
+    position:static!important;display:block;page-break-before:always}
+  .p-notes p,.p-scope .tx,.p-dec .b{color:#111!important}
+  .p-nh,.p-scope .lb{color:#555!important}
+  .p-fold .car{display:none}
+  .p-open{overflow:visible;background:#fff;padding:0}
+  .p-open h2{color:#111}.p-open .sub,.p-tbl td.why,.p-tbl th{color:#444}
+  .p-tbl td{border-color:#ddd}
+  .p-tbl td.id{color:#111}
+  .p-open section{page-break-inside:auto;break-inside:auto}
+  .p-grid,.p-map{display:none!important}
+}
+@media (max-width:1400px){
+  .p-notes{position:absolute;right:0;top:48px;bottom:0;z-index:15;
+    box-shadow:0 0 40px #000c}
+}
+
+@media (max-width:900px){
+  .p-side{position:absolute;z-index:20;height:100%;box-shadow:0 0 40px #000c}
+  .p-side[hidden]{display:none}
+}
+@media (min-width:901px){.p-navbtn{display:none}}
+
+
+/* board-only mode (#board=Name): the board at full size and nothing else, for the
+   checks and for renders. No chrome, no hotspots, no scaling. */
+body.p-boardonly{overflow:auto;background:#fff}
+body.p-boardonly #root{height:auto;display:block}
+.p-alone{width:var(--fw);height:var(--fh);position:relative;overflow:hidden}

@@ -1,16 +1,20 @@
 ---
-description: Compare the agreed scope document against the design model and report where they have drifted.
-argument-hint: "[path to the scope document]"
+description: Compare the agreed scope document with the prototype and list the edits the scope needs
+argument-hint: '<path/to/scope.md> [path/to/prototype.html]'
 ---
-# /drift
-Use `measured-design-drift`. Run `scaffold/drift.py <scope-file>`.
+Compare the scope with the prototype: $ARGUMENTS
 
-## Steps
-1. Point it at a local Markdown, HTML or text file. If the scope lives in a connector, fetch and save it first.
-2. Read the five comparisons: verbatim step names, near-matches, steps nothing serves, screens nothing asks for, labels changed without ids.
-3. Near-matches are worse than misses. Somebody paraphrased, and two names now exist for one thing.
-4. Bring the scope document level with the audited prototype, not the other way round.
-5. Flag every unagreed claim on the screen that makes it.
+Use the `examined-design-drift` skill.
 
-## Output
-A drift report, a set of edits to the scope document, and a set of screens needing a gate flag.
+1. If the scope lives in a wiki or ticket system, ask the person to save it as a file first.
+2. Run `python3 harness/drift.py <scope> <prototype.html>` (prototype defaults to `prototype.html`).
+3. For each section of the output, say what it means and what to do:
+   - near-matches: two names for one thing; the prototype's name stands, the scope's changes;
+   - steps not in the scope: bring the scope level, or drop the step;
+   - steps nothing serves: if not recorded as a gap, add one with `p.add_gap(jid, sid, title, why)`;
+   - boards serving no step: claims the scope has not seen; flag them to the scope's owner;
+   - retired words still in the scope: edit the scope; also check the journeys' step titles.
+4. Write the list of scope edits, each with its reason: the decision id behind it, the objection,
+   and why the old line looked right. If the prototype has not been audited, mark each disagreement
+   as a question rather than an edit.
+5. Do not edit the scope document or send the list to anyone yourself. Hand it to the person.

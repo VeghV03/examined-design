@@ -4,4 +4,10 @@ __pycache__/
 node_modules/
 # The run's own scratch: findings.json is rewritten every run and describes one
 # moment. The baseline and the waivers are the durable parts, and both are committed.
-.measured-design/
+.examined/
+# Board renders are for looking, regenerated on demand.
+renders/
+# LaTeX build leftovers
+*.aux
+*.log
+*.out

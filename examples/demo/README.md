@@ -1,55 +1,51 @@
-# demo — ten screens, end to end
+# demo — a file manager in thirteen patches
 
-Small enough to read in one sitting, complete enough that every part of the contract fires — four
-journeys, two failure states, two open decisions, one place the audit forgot to give an empty state,
-and a jargon zone that actually gets used.
+A fifteen-board file manager, built from an empty file. Generic on purpose: it carries the method,
+not any real product. The [tutorial](../../docs/tutorial.md) walks through it patch by patch.
 
-What is deliberately wrong in it, so you can see the reports work:
+Open `prototype.html` in a browser. Nothing to install, and it works with the network off.
 
-- `files-removed` and `settings-storage` are places with no empty state. The gate reports both and
-  does not stop. That count grew from one to two as the demo grew — it is supposed to; nothing here
-  ever goes back and adds the missing state for you.
-- `manage/estimate` is a step nothing serves. It is recorded in `gaps.json`, keyed to the step.
-- `d-001` and `d-002` are open decisions, each stated as two options carrying what it buys and what
-  it kills, not as a recommendation.
-- `share-failed` carries an `unagreed` flag: the scope document still calls that place Trash.
-- `sync-failed` and `search-empty` serve no journey step — they are system-reached branches an audit
-  produced, not something anyone asked for by name. `drift.py` flags them as claims to confirm.
-- `scope.md` is missing "Share a file" entirely. `drift.py` finds it.
-- `settings-storage` is the one screen `policy.json` zones "advanced" — it is the only place `chunk`
-  is allowed to appear. `vocab.mjs` enforces that, not a comment.
-
-What the harnesses actually caught here, not staged: `lang.mjs` reported all ten boards with no
-`<html lang>` the first time this demo was rebuilt with the current adapters — real, not planted. It
-was a one-line fix in both `system.py` and `system.mjs`, and the count went to zero on the next build.
-That is the loop the whole pack is for: a number, a fix, the same number checked again.
-
-Break something on purpose:
+| | |
+|---|---|
+| `scope.md` | the agreed scope the prototype answers to; it still says Trash, which is the drift |
+| `patches/` | `00-new.py` … `12-what-the-checks-found.py`, one change each, kept as the record; `_boot.py` finds the harness, `parts.py` is a typing aid for markup |
+| `rebuild.sh` | runs every patch from nothing; the result must equal `prototype.html` byte for byte |
+| `prototype.html` | the prototype: design system, boards, meaning, viewer |
+| `rounds/round-01.md` | the multiple-choice round that settled D2 and left D1 open |
+| `stories/b2-move-into-shared-folder.md` | one story written from the prototype, with its required text, its criteria and what was not checked |
+| `examined.config.json` | points the checks at the prototype |
+| `examined.baseline.json` | the checks' baseline: empty, because patch 12 fixed what the first run found |
+| `backlog.config.json` | the Jira settings for the backlog (company-managed) |
+| `backlog.md`, `jira.csv`, `backlog.json`, `backlog.keys.json` | the backlog, generated from the prototype |
 
 ```sh
-sed -i 's/"Move to folder…"/"Put in folder"/' model/routes.json
-python3 ../../scaffold/gate.py --model model --boards boards   # STOP · 1 routes do not bind
+sh rebuild.sh                                                     # the prototype, from nothing
+python3 ../../harness/render.py prototype.html --both             # every board, light and dark
+node ../../cli/examined.mjs check                                 # the thirteen checks
+python3 ../../backlog/build_backlog.py --prototype prototype.html  # the backlog
+python3 ../../harness/drift.py scope.md prototype.html            # scope against prototype
 ```
 
-That is the whole idea. The route map cannot lie to QA, because the build will not produce one that does.
+## Ready
 
-## The baseline is real too
+The demo is done when all of these hold. They are checked in this order, and the last line is part of
+the definition, not an afterthought.
 
-`measured-design.baseline.json` here holds two findings, both genuine: the two lines of prose on
-`files-move` run past 40em at 1440. They are recorded rather than fixed, which is the honest state of
-this demo and the normal state of any codebase that existed before the checks did.
+1. Every step in the scope is served by a board or recorded as a gap with its reason.
+2. Every place has an empty state, or the build's report that it has none was read and accepted by a
+   person.
+3. The build has no refusals.
+4. The checks have no finding that is not fixed, baselined or waived with a reason and a date.
+5. Every decision is settled with who decided, when, and their explain-back, or is open with a spike
+   in the backlog that names what it blocks.
+6. Every board was rendered and looked at, in light and dark, after the last patch that touched it.
+7. What was not checked is written down: no person outside the project has used it; nobody has read
+   the strings cold; none of the checks can see whether a board says the right thing.
 
-```sh
-npx measured-design check --no-new    # 2 baselined · 0 new — exits 0
-```
+It holds today with D1 open, B5 a gap, and Storage reported without an empty state.
 
-Break a board and the ratchet refuses where the gate would not care:
+## What is generic and what is not
 
-```sh
-sed -i 's/<html lang="en">/<html>/' boards/files-list.html
-npx measured-design check --no-new    # 2 baselined · 1 new — exits 1
-git checkout boards/
-```
-
-The two known findings stay quiet. The new one does not. That is the difference between a number you
-looked at once and a number that can only go down.
+The rules the boards follow (name what is read, never why it failed; nothing irreversible on a fact not
+yet read; a word that makes a false claim is renamed) came from designing the File Manager of Swarm
+Desktop at Solar Punk. None of that product's boards, copy or data is here.

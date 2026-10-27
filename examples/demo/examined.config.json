@@ -1,0 +1,6 @@
+{
+  "target": {
+    "mode": "prototype",
+    "file": "./prototype.html"
+  }
+}

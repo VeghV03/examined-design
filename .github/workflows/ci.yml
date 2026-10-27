@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-gate-harness:
+  harness-checks-backlog:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,89 +20,81 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Library — every vendored skill must be reachable from a stage
-        run: python3 scaffold/check_library.py
-
-      - name: Build examples/demo with the Python adapter
-        working-directory: examples/demo
-        run: python3 ../../scaffold/adapters/python/build.py --boards boards --model model
-
-      - name: Gate — a route that does not bind must stop the build
-        working-directory: examples/demo
-        run: python3 ../../scaffold/gate.py --model model --boards boards
-
-      - name: Build the same demo with the Node adapter, prove the contract holds
+      - name: Skills — every skill has a name that matches its folder and a description
         run: |
-          mkdir -p /tmp/node-boards /tmp/node-model
-          cp examples/demo/model/*.json /tmp/node-model/
-          rm -f /tmp/node-model/rationale.json /tmp/node-model/index.json
-          node scaffold/adapters/node/build.mjs --boards /tmp/node-boards --model /tmp/node-model
-          python3 scaffold/gate.py --model /tmp/node-model --boards /tmp/node-boards
           python3 - <<'PY'
-          import json, sys
-          a = json.load(open("examples/demo/model/rationale.json"))
-          b = json.load(open("/tmp/node-model/rationale.json"))
-          if a != b:
-              print("rationale.json differs between the Python and Node adapters:")
-              for k in sorted(set(a) | set(b)):
-                  if a.get(k) != b.get(k):
-                      print(f"  {k}:\n    python: {a.get(k)!r}\n    node:   {b.get(k)!r}")
-              sys.exit(1)
-          print(f"rationale.json identical across both adapters ({len(a)} screens)")
+          import pathlib, re, sys
+          bad = []
+          for f in sorted(pathlib.Path("skills").glob("*/SKILL.md")):
+              head = f.read_text().split("---")
+              meta = head[1] if len(head) > 2 else ""
+              name = re.search(r"^name:\s*(.+)$", meta, re.M)
+              desc = re.search(r"^description:\s*(.+)$", meta, re.M)
+              if not name or name.group(1).strip() != f.parent.name:
+                  bad.append(f"{f}: name must be {f.parent.name}")
+              if not desc or len(desc.group(1).strip()) < 40:
+                  bad.append(f"{f}: description missing or too short to route on")
+          n = len(list(pathlib.Path("skills").glob("*/SKILL.md")))
+          print("\n".join(bad) or f"{n} skills, every one named and described")
+          sys.exit(1 if bad else 0)
           PY
 
-      - name: Build with the React adapter, prove all three agree
+      - name: Install Playwright (Python, for the renders; Node, for the checks)
         run: |
-          mkdir -p /tmp/react-boards /tmp/react-model /tmp/react-components
-          cp examples/demo/model/*.json /tmp/react-model/
-          rm -f /tmp/react-model/rationale.json /tmp/react-model/index.json
-          node scaffold/adapters/react/build.mjs \
-            --boards /tmp/react-boards --model /tmp/react-model --components /tmp/react-components
-          python3 scaffold/gate.py --model /tmp/react-model --boards /tmp/react-boards
-          python3 - <<'PY'
-          import json, sys
-          ref = json.load(open("examples/demo/model/rationale.json"))
-          rea = json.load(open("/tmp/react-model/rationale.json"))
-          if ref != rea:
-              print("rationale.json differs between the Python and React adapters:")
-              for k in sorted(set(ref) | set(rea)):
-                  if ref.get(k) != rea.get(k):
-                      print(f"  {k}:\n    python: {ref.get(k)!r}\n    react:  {rea.get(k)!r}")
-              sys.exit(1)
-          print(f"rationale.json identical across all three adapters ({len(ref)} screens)")
+          pip install playwright
+          python3 -m playwright install --with-deps chromium
+          cd checks && npm install && npx playwright install chromium
+
+      - name: Demo — the patches rebuild the committed prototype exactly
+        run: |
+          sh examples/demo/rebuild.sh
+          git diff --exit-code examples/demo/prototype.html docs/demo.html || {
+            echo "the patches no longer produce the committed prototype (or the Pages copy of it)"; exit 1; }
+          python3 harness/build.py examples/demo/prototype.html --check
+
+      - name: Build — a link whose label is not on its board must refuse, writing nothing
+        run: |
+          set -e
+          cp examples/demo/prototype.html /tmp/bad.html
+          cp /tmp/bad.html /tmp/bad-before.html
+          set +e
+          python3 - > /tmp/refuse.txt 2>&1 <<'PY'
+          import sys; sys.path.insert(0, "harness")
+          import protolib
+          p = protolib.Proto("/tmp/bad.html")
+          p.link("Files", "Archive everything", "Removed")
+          p.save()
           PY
+          code=$?
+          set -e
+          cat /tmp/refuse.txt
+          test "$code" != "0" || { echo "an unbound label must stop the save"; exit 1; }
+          grep -q "Archive everything" /tmp/refuse.txt
+          cmp /tmp/bad.html /tmp/bad-before.html
+          echo "  refused, and the file is unchanged"
 
-      - name: Typecheck the emitted components (dev-only toolchain)
-        working-directory: scaffold/adapters/react
+      - name: Render — boards alone, in light and dark, with no page errors
         run: |
-          npm install
-          npm run typecheck
+          python3 harness/render.py examples/demo/prototype.html Files RemoveForGoodChecking --both --out /tmp/renders > /tmp/render.txt
+          cat /tmp/render.txt
+          test "$(grep -c '\.png$' /tmp/render.txt)" = "4"
+          if grep -q "page errors" /tmp/render.txt; then exit 1; fi
 
-      - name: Install harness dependencies
-        working-directory: scaffold/harnesses
+      - name: Checks — all thirteen against the demo prototype
+        working-directory: checks
+        run: node run-all.mjs
+
+      - name: Checks test themselves — contrast must composite the veil
+        working-directory: checks
+        run: node test-fixtures.mjs
+
+      - name: Drift — the scope is compared with the prototype, and the prototype dictates
         run: |
-          npm install
-          npx playwright install --with-deps chromium
+          python3 harness/drift.py examples/demo/scope.md examples/demo/prototype.html > /tmp/drift.txt || true
+          cat /tmp/drift.txt
+          grep -q 'line 10: "trash"' /tmp/drift.txt
 
-      - name: Run all twelve harnesses against examples/demo
-        working-directory: scaffold/harnesses
-        run: |
-          cat > harness.config.json <<'EOF'
-          {
-            "target": { "mode": "dir", "dir": "../../examples/demo/boards" },
-            "model": "../../examples/demo/model",
-            "widths": [1440, 1024, 768],
-            "height": 900,
-            "executablePath": null,
-            "scrimSelector": ".scrim",
-            "cellChildSelector": ".chip",
-            "ignoreSelectors": ["code", "pre", "[data-verbatim]"]
-          }
-          EOF
-          node run-all.mjs
-
-
-      - name: CLI — init and check against a throwaway project
+      - name: CLI — init and check against a throwaway project with no prototype
         run: |
           set -e
           rm -rf /tmp/fixture && mkdir -p /tmp/fixture/dist
@@ -118,38 +110,38 @@ jobs:
           HTML
 
           cd /tmp/fixture
-          node "$GITHUB_WORKSPACE/cli/measured-design.mjs" init > /tmp/cli.txt 2>&1 || { cat /tmp/cli.txt; exit 1; }
-          test -f measured-design.config.json
+          node "$GITHUB_WORKSPACE/cli/examined.mjs" init > /tmp/cli.txt 2>&1 || { cat /tmp/cli.txt; exit 1; }
+          test -f examined.config.json
           grep -q "no <html lang>"                                /tmp/cli.txt
-          grep -qE "[1-9][0-9]* boards with a contrast failure"    /tmp/cli.txt
+          grep -qE "[1-9][0-9]* boards? with a contrast failure"   /tmp/cli.txt
           grep -q "links needs a served origin"                    /tmp/cli.txt
           grep -q "12 checks · 0 errored"                          /tmp/cli.txt
           # a check that cannot run must say so, not read as a clean pass
           grep -q "2 skipped"                                      /tmp/cli.txt
           # the run writes its findings down, so the next run can tell new from known
-          test -s .measured-design/findings.json
-          python3 -c "import json,sys; d=json.load(open('.measured-design/findings.json')); sys.exit(0 if d['findings'] else 1)"
+          test -s .examined/findings.json
+          python3 -c "import json,sys; d=json.load(open('.examined/findings.json')); sys.exit(0 if d['findings'] else 1)"
           echo "  dir mode ok"
 
           # "/" and "/index.html" are one page; a dead link must be reported once
           ( cd dist && python3 -m http.server 8099 >/dev/null 2>&1 & echo $! > /tmp/f.pid )
           for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:8099/ && break; sleep 1; done
-          cat > measured-design.config.json <<'JSON'
+          cat > examined.config.json <<'JSON'
           { "target": { "mode": "crawl", "start": "http://localhost:8099/", "limit": 25 },
             "widths": [1440], "height": 900, "densityBudget": 400, "targetSize": 24 }
           JSON
-          node "$GITHUB_WORKSPACE/cli/measured-design.mjs" check > /tmp/crawl.txt 2>&1 || true
+          node "$GITHUB_WORKSPACE/cli/examined.mjs" check > /tmp/crawl.txt 2>&1 || true
           kill "$(cat /tmp/f.pid)" 2>/dev/null || true
-          grep -q "1 links that do not resolve" /tmp/crawl.txt || {
+          grep -q "1 link that does not resolve" /tmp/crawl.txt || {
             echo "expected exactly one unresolved link"; grep -A3 "links" /tmp/crawl.txt; exit 1; }
           echo "  crawl mode ok"
 
       - name: Backlog — the plan resolves, emits, and does not duplicate itself
         run: |
           set -e
-          B="python3 scaffold/backlog/build_backlog.py"
+          B="python3 backlog/build_backlog.py"
 
-          # Standalone first: a plan written from a brief, with no model/ anywhere.
+          # Standalone first: a plan written from a brief, with no prototype anywhere.
           $B --plan examples/standalone-backlog/backlog.plan.json \
              --config examples/standalone-backlog/backlog.config.json --out /tmp/sa > /tmp/sa.txt
           cat /tmp/sa.txt
@@ -169,44 +161,39 @@ jobs:
           print("  build order ok")
           PY
 
-          # Same emitter, the richer front end.
-          $B --model examples/demo/model --config examples/demo/backlog.config.json \
-             --out /tmp/md1 --title "File manager" > /tmp/m1.txt
-          grep -q "4 epics · 9 stories · 10 sub-tasks · 2 spikes" /tmp/m1.txt
-          echo "  model front end ok"
+          # Same emitter, read from the prototype.
+          P=examples/demo/prototype.html
+          C=examples/demo/backlog.config.json
+          $B --prototype $P --config $C --out /tmp/md1 > /tmp/m1.txt
+          cat /tmp/m1.txt
+          grep -q "4 epics · 9 stories · 15 sub-tasks · 1 spike" /tmp/m1.txt
+          # every sub-task carries its board's required text, pointed at the board
+          grep -q 'Required text (proto: RemoveForGoodChecking)' /tmp/md1/backlog.md
+          echo "  prototype front end ok"
 
           # Deterministic: same input, byte-identical output.
-          $B --model examples/demo/model --config examples/demo/backlog.config.json \
-             --out /tmp/md2 --title "File manager" > /dev/null
+          $B --prototype $P --config $C --out /tmp/md2 > /dev/null
           for f in backlog.json jira.csv backlog.md; do cmp /tmp/md1/$f /tmp/md2/$f; done
           echo "  deterministic"
 
           # Re-run into the same directory must report nothing and duplicate nothing.
-          $B --model examples/demo/model --config examples/demo/backlog.config.json \
-             --out /tmp/md1 --title "File manager" > /tmp/m2.txt
+          $B --prototype $P --config $C --out /tmp/md1 > /tmp/m2.txt
           if grep -qE "^  (added|changed|gone) " /tmp/m2.txt; then
             echo "an unchanged re-run must report nothing"; cat /tmp/m2.txt; exit 1; fi
           echo "  re-run is quiet"
 
-          # A reworded story keeps its ticket; only a restructure makes new work.
+          # A reworded step keeps its ticket; only a restructure makes new work.
+          cp $P /tmp/renamed.html
           python3 - <<'PY'
-          import json, pathlib
-          p = pathlib.Path("/tmp/j.json")
-          d = json.load(open("examples/demo/model/journeys.json"))
-          for j in d:
-              if j["id"] == "manage":
-                  for s in j["steps"]:
-                      if s["id"] == "move":
-                          s["name"] = "Move a file into a folder without sharing it"
-          p.write_text(json.dumps(d))
+          import sys; sys.path.insert(0, "harness")
+          import protolib
+          p = protolib.Proto("/tmp/renamed.html")
+          p.set_step("B", "B2", title="Move a file into a folder without sharing it")
+          p.save()
           PY
-          cp examples/demo/model/journeys.json /tmp/j-orig.json
-          cp /tmp/j.json examples/demo/model/journeys.json
-          $B --model examples/demo/model --config examples/demo/backlog.config.json \
-             --out /tmp/md1 --title "File manager" > /tmp/m3.txt
-          cp /tmp/j-orig.json examples/demo/model/journeys.json
-          grep -q "changed  S-manage-move" /tmp/m3.txt
-          if grep -q "added    S-manage" /tmp/m3.txt; then
+          $B --prototype /tmp/renamed.html --config $C --out /tmp/md1 > /tmp/m3.txt
+          grep -q "changed  S-b-b2" /tmp/m3.txt
+          if grep -q "added    S-b" /tmp/m3.txt; then
             echo "a rename must not create a new ticket"; cat /tmp/m3.txt; exit 1; fi
           echo "  rename keeps identity"
 
@@ -232,12 +219,11 @@ jobs:
 
           # push is the only part that reaches outside. Its guards are tested against
           # a stubbed Jira rather than trusted: no network, no tickets, every rule real.
-          python3 scaffold/backlog/push_test.py
+          python3 backlog/push_test.py
 
           # and it must refuse to create anything with no terminal to confirm at
           set +e
-          python3 scaffold/backlog/build_backlog.py --model examples/demo/model \
-            --config examples/demo/backlog.config.json --out /tmp/np --push < /dev/null > /tmp/np.txt 2>&1
+          $B --prototype $P --config $C --out /tmp/np --push < /dev/null > /tmp/np.txt 2>&1
           code=$?
           set -e
           test "$code" = "1" || { echo "push must fail without credentials or a terminal"; cat /tmp/np.txt; exit 1; }
@@ -248,30 +234,30 @@ jobs:
         run: |
           set -e
           cd /tmp/fixture
-          MD="node $GITHUB_WORKSPACE/cli/measured-design.mjs"
-          cat > measured-design.config.json <<'JSON'
+          EX="node $GITHUB_WORKSPACE/cli/examined.mjs"
+          cat > examined.config.json <<'JSON'
           { "target": { "mode": "dir", "dir": "./dist" },
             "widths": [1440], "height": 900, "densityBudget": 400, "targetSize": 24 }
           JSON
 
-          $MD baseline > /tmp/base.txt 2>&1 || { cat /tmp/base.txt; exit 1; }
+          $EX baseline > /tmp/base.txt 2>&1 || { cat /tmp/base.txt; exit 1; }
           grep -q "Recorded" /tmp/base.txt
-          test -f measured-design.baseline.json
+          test -f examined.baseline.json
           echo "  baseline written"
 
           # The same findings, now known: the ratchet must be silent and exit 0.
-          $MD check --no-new > /tmp/r1.txt 2>&1 || { echo "a baselined run must pass"; cat /tmp/r1.txt; exit 1; }
+          $EX check --no-new > /tmp/r1.txt 2>&1 || { echo "a baselined run must pass"; cat /tmp/r1.txt; exit 1; }
           grep -q "0 new" /tmp/r1.txt
           echo "  baselined run passes"
 
-          # A screen nobody measured before, carrying exactly one finding nobody
+          # A screen nobody checked before, carrying exactly one finding nobody
           # accepted. It declares a lang so the heading is the only thing new —
           # the assertions below are about the ratchet, not about the page.
           cat > dist/settings.html <<'HTML'
           <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Settings</title></head>
           <body style="font-family:system-ui"><div>Settings</div></body></html>
           HTML
-          set +e; $MD check --no-new > /tmp/r2.txt 2>&1; code=$?; set -e
+          set +e; $EX check --no-new > /tmp/r2.txt 2>&1; code=$?; set -e
           test "$code" = "1" || { echo "a new finding must fail, got exit $code"; cat /tmp/r2.txt; exit 1; }
           grep -q "new since the baseline" /tmp/r2.txt
           grep -q "structure · settings: no heading element" /tmp/r2.txt
@@ -280,12 +266,12 @@ jobs:
           # A recorded decision is accepted; an unexplained one is not.
           FP=$(grep "structure · settings: no heading element" /tmp/r2.txt | awk '{print $1}')
           test -n "$FP"
-          $MD waive "$FP" --why "Fixture screen, heading lands with the redesign" --until 2999-01-01
-          $MD check --no-new > /tmp/r3.txt 2>&1 || { echo "a waived finding must pass"; cat /tmp/r3.txt; exit 1; }
+          $EX waive "$FP" --why "Fixture screen, heading lands with the redesign" --until 2999-01-01
+          $EX check --no-new > /tmp/r3.txt 2>&1 || { echo "a waived finding must pass"; cat /tmp/r3.txt; exit 1; }
           grep -q "1 waived" /tmp/r3.txt
           echo "  waiver accepted"
 
-          set +e; $MD waive deadbeefcafe > /tmp/r4.txt 2>&1; code=$?; set -e
+          set +e; $EX waive deadbeefcafe > /tmp/r4.txt 2>&1; code=$?; set -e
           test "$code" = "2" || { echo "a waiver with no --why must be refused, got exit $code"; exit 1; }
           grep -q "an opinion that won" /tmp/r4.txt
           echo "  waiver without a reason refused"
@@ -293,12 +279,18 @@ jobs:
           # An expired waiver brings its finding straight back.
           python3 - <<'PY'
           import json
-          p = "measured-design.waivers.json"
+          p = "examined.waivers.json"
           d = json.load(open(p))
           for w in d["waivers"]: w["until"] = "2020-01-01"
           json.dump(d, open(p, "w"), indent=2)
           PY
-          set +e; $MD check --no-new > /tmp/r5.txt 2>&1; code=$?; set -e
+          set +e; $EX check --no-new > /tmp/r5.txt 2>&1; code=$?; set -e
           test "$code" = "1" || { echo "an expired waiver must stop protecting, got exit $code"; cat /tmp/r5.txt; exit 1; }
           grep -q "waiver expired" /tmp/r5.txt
           echo "  expired waiver refuses again"
+
+      - name: Paper — the LaTeX source is present with its figures and PDF
+        run: |
+          test -s docs/paper/examined-design.tex
+          test -s docs/paper/examined-design.pdf
+          test -s docs/paper/figures/figs.tex

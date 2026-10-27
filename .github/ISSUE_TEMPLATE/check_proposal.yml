@@ -1,0 +1,57 @@
+name: Check proposal
+description: Propose a new check for checks/ — one property, one number, and what it cannot see.
+labels: ["check"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A check tests one property across the boards and prints one number. It refutes; it never
+        proves. See `CONTRIBUTING.md` for the shape (`lib.mjs` gives you `cfg`, `targets`, `open`,
+        `report`, `skip`) and `checks/density.mjs` as a worked example under thirty lines.
+
+  - type: textarea
+    id: property
+    attributes:
+      label: What property does it test
+      description: One sentence. "Element count per board at the real data scale," not "checks density and also flags long labels."
+    validations:
+      required: true
+
+  - type: textarea
+    id: blind
+    attributes:
+      label: What it cannot see
+      description: The cases where it passes and the property is still wrong. Every check states this in its first lines and in the README table.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: What would it have caught
+      description: A specific board or PR where this property was wrong and nothing flagged it, if you have one.
+    validations:
+      required: true
+
+  - type: input
+    id: config
+    attributes:
+      label: Config it needs
+      description: A budget, a selector, a viewport width — whatever belongs in examined.config.json.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Printing or refusing
+      description: The build refuses on two things only (an unbound link label, an unresolved id). Default to printing.
+      options:
+        - Printing (prints a number, does not stop the build)
+        - Refusing (proposing a third refusal — make the case below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: refusing-case
+    attributes:
+      label: If you chose "Refusing" above, make the case
+      description: What failure does this prevent that a printed number would not catch in time?
