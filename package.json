@@ -21,7 +21,7 @@
     "!checks/node_modules/**"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "dependencies": {
     "playwright": "^1.47.0"
