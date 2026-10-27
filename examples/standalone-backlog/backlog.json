@@ -14,6 +14,7 @@
       "issue_id": "E-get-paid",
       "name": "Get an invoice paid",
       "rank": 1,
+      "parent": null,
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -28,6 +29,7 @@
       "issue_id": "E-set-up",
       "name": "Set up the account",
       "rank": 2,
+      "parent": null,
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -42,6 +44,7 @@
       "issue_id": "K-tax-fields",
       "name": "Decide: which business fields are legally required, and where",
       "rank": 3,
+      "parent": "epic:set-up",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -56,6 +59,7 @@
       "issue_id": "S-set-up-details",
       "name": "Add the business details",
       "rank": 4,
+      "parent": "epic:set-up",
       "blocked_by": [
         "spike:tax-fields"
       ],
@@ -64,8 +68,8 @@
         "onboarding"
       ],
       "size": "M",
-      "hash": "6e4e9bc9a064",
-      "description": "When I have signed up and nothing is filled in yet, I want to add the business details that appear on an invoice, so I can an invoice I send looks like it came from a real business.\n\nName, address, tax number and logo. These appear on every invoice, so an invoice cannot be sent before this exists. The brief does not say which fields are legally required and that varies by country — see the spike.\n\nAcceptance criteria\n- the form states which fields appear on the invoice and which are for our records only\n- leaving it half-finished and coming back does not lose what was typed\n- every field has a label a screen reader can read  [structure]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Decide: which business fields are legally required, and where (K-tax-fields)"
+      "hash": "b00caee5a4ce",
+      "description": "When I have signed up and nothing is filled in yet, I want to add the business details that appear on an invoice, so I can send invoices that look like they came from a real business.\n\nName, address, tax number and logo. These appear on every invoice, so an invoice cannot be sent before this exists. The brief does not say which fields are legally required and that varies by country — see the spike.\n\nAcceptance criteria\n- the form states which fields appear on the invoice and which are for our records only\n- leaving it half-finished and coming back does not lose what was typed\n- every field has a label a screen reader can read  [structure]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Decide: which business fields are legally required, and where (K-tax-fields)"
     },
     {
       "key": "subtask:details-form",
@@ -74,6 +78,7 @@
       "issue_id": "T-details-form",
       "name": "Business details form",
       "rank": 5,
+      "parent": "story:set-up/details",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -88,6 +93,7 @@
       "issue_id": "T-details-empty",
       "name": "First-run state, nothing entered yet",
       "rank": 6,
+      "parent": "story:set-up/details",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -102,6 +108,7 @@
       "issue_id": "S-set-up-bank",
       "name": "Connect a bank account",
       "rank": 7,
+      "parent": "epic:set-up",
       "blocked_by": [
         "story:set-up/details"
       ],
@@ -120,6 +127,7 @@
       "issue_id": "T-bank-connect",
       "name": "Connect account",
       "rank": 8,
+      "parent": "story:set-up/bank",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -134,6 +142,7 @@
       "issue_id": "T-bank-failed",
       "name": "Connection refused",
       "rank": 9,
+      "parent": "story:set-up/bank",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -148,6 +157,7 @@
       "issue_id": "S-get-paid-create",
       "name": "Create an invoice",
       "rank": 10,
+      "parent": "epic:get-paid",
       "blocked_by": [
         "story:set-up/details"
       ],
@@ -156,8 +166,8 @@
         "invoicing-v1"
       ],
       "size": "M",
-      "hash": "e32bdf424ff0",
-      "description": "When I have done work for somebody and want the money, I want to create an invoice for it, so I can there is a document the client can pay against.\n\nLine items, a total, a due date and a client. What it must never do: send anything. Creating and sending are separate on purpose, because a half-written invoice reaching a client cannot be taken back.\n\nAcceptance criteria\n- nothing leaves the system from this screen — sending is a separate, deliberate action\n- the total is recomputed from the line items and is never typed by hand\n- an invoice with no line items cannot be saved as ready to send\n- nothing falls off the frame at any supported width  [overflow]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 2 sub-tasks, 4 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Add the business details (S-set-up-details)"
+      "hash": "9aa077027165",
+      "description": "When I have done work for somebody and want the money, I want to create an invoice for it, so I can give the client a document to pay against.\n\nLine items, a total, a due date and a client. What it must never do: send anything. Creating and sending are separate on purpose, because a half-written invoice reaching a client cannot be taken back.\n\nAcceptance criteria\n- nothing leaves the system from this screen — sending is a separate, deliberate action\n- the total is recomputed from the line items and is never typed by hand\n- an invoice with no line items cannot be saved as ready to send\n- nothing falls off the frame at any supported width  [overflow]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 2 sub-tasks, 4 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Add the business details (S-set-up-details)"
     },
     {
       "key": "subtask:invoice-new",
@@ -166,6 +176,7 @@
       "issue_id": "T-invoice-new",
       "name": "New invoice",
       "rank": 11,
+      "parent": "story:get-paid/create",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -180,6 +191,7 @@
       "issue_id": "T-invoice-empty",
       "name": "No invoices yet",
       "rank": 12,
+      "parent": "story:get-paid/create",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -194,6 +206,7 @@
       "issue_id": "S-get-paid-send",
       "name": "Send an invoice",
       "rank": 13,
+      "parent": "epic:get-paid",
       "blocked_by": [
         "story:get-paid/create"
       ],
@@ -202,8 +215,8 @@
         "invoicing-v1"
       ],
       "size": "M",
-      "hash": "6969eca01560",
-      "description": "When an invoice is finished and I have checked it, I want to send it to the client, so I can the client has it and the clock starts.\n\nSending is irreversible from the client's side. The screen exists mostly to carry that one sentence, and to show exactly what will be sent and to whom before it goes.\n\nAcceptance criteria\n- the client's email address is shown in full, next to the confirm action\n- a send that fails says whether the client received it or not — never 'something went wrong'\n- a sent invoice can be viewed but not edited\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Create an invoice (S-get-paid-create)"
+      "hash": "b044076a3af4",
+      "description": "When an invoice is finished and I have checked it, I want to send it to the client, so I can start the clock on being paid.\n\nSending is irreversible from the client's side. The screen exists mostly to carry that one sentence, and to show exactly what will be sent and to whom before it goes.\n\nAcceptance criteria\n- the client's email address is shown in full, next to the confirm action\n- a send that fails says whether the client received it or not — never 'something went wrong'\n- a sent invoice can be viewed but not edited\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Create an invoice (S-get-paid-create)"
     },
     {
       "key": "subtask:invoice-send",
@@ -212,6 +225,7 @@
       "issue_id": "T-invoice-send",
       "name": "Confirm and send",
       "rank": 14,
+      "parent": "story:get-paid/send",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -226,6 +240,7 @@
       "issue_id": "T-send-failed",
       "name": "Send did not go out",
       "rank": 15,
+      "parent": "story:get-paid/send",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -240,6 +255,7 @@
       "issue_id": "S-get-paid-chase",
       "name": "Chase an unpaid invoice",
       "rank": 16,
+      "parent": "epic:get-paid",
       "blocked_by": [
         "story:get-paid/send"
       ],
@@ -258,6 +274,7 @@
       "issue_id": "S-get-paid-owed",
       "name": "See what is owed",
       "rank": 17,
+      "parent": "epic:get-paid",
       "blocked_by": [
         "story:get-paid/send"
       ],
@@ -266,8 +283,8 @@
         "invoicing-v1"
       ],
       "size": "M",
-      "hash": "81873373d7ff",
-      "description": "When I want to know where I stand, I want to see every unpaid invoice and what it adds up to, so I can I know whether to chase anybody this week.\n\nThe one screen most people open daily. With six invoices it is a list; with six hundred it is unusable, so the density budget matters here more than anywhere else.\n\nAcceptance criteria\n- the outstanding total is visible without scrolling\n- overdue is distinguishable without relying on colour alone  [structure]\n- the list stays usable at the real number of invoices, not the demo number  [density]\n\nCriteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Send an invoice (S-get-paid-send)"
+      "hash": "48975a2309ef",
+      "description": "When I want to know where I stand, I want to see every unpaid invoice and what it adds up to, so I can decide whether to chase anybody this week.\n\nThe one screen most people open daily. With six invoices it is a list; with six hundred it is unusable, so the density budget matters here more than anywhere else.\n\nAcceptance criteria\n- the outstanding total is visible without scrolling\n- overdue is distinguishable without relying on colour alone  [structure]\n- the list stays usable at the real number of invoices, not the demo number  [density]\n\nCriteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.\n\nSize hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.\n\nWaits for: Send an invoice (S-get-paid-send)"
     },
     {
       "key": "subtask:owed-list",
@@ -276,6 +293,7 @@
       "issue_id": "T-owed-list",
       "name": "Outstanding invoices",
       "rank": 18,
+      "parent": "story:get-paid/owed",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"
@@ -290,6 +308,7 @@
       "issue_id": "T-owed-empty",
       "name": "Nothing outstanding",
       "rank": 19,
+      "parent": "story:get-paid/owed",
       "blocked_by": [],
       "labels": [
         "invoicing-v1"

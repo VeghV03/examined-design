@@ -7,8 +7,8 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-export const BASELINE = 'measured-design.baseline.json';
-export const WAIVERS = 'measured-design.waivers.json';
+export const BASELINE = 'examined.baseline.json';
+export const WAIVERS = 'examined.waivers.json';
 
 const read = p => JSON.parse(readFileSync(p, 'utf8'));
 

@@ -1,26 +1,22 @@
 {
-  "name": "measured-design",
-  "version": "1.0.0",
-  "description": "Take a product from an agreed scope document to a measured, engineering-ready prototype. Six stage skills, a stack-agnostic build contract proven by three independent generators, a route-binding gate that refuses, thirteen runnable harnesses that also run against a live app, a dependency-free handover viewer, a backlog generator that turns the design — or any brief, app or codebase — into a Jira structure with real dependencies, and 88 vendored designer and thinking skills.",
+  "name": "examined-design",
+  "version": "2.0.0",
+  "description": "A method and a harness for designing with an AI model: a single-file prototype edited one patch at a time, a build that refuses when a link lies, thirteen checks that refute and say what they cannot see, decision rounds with the case for every option, and a backlog whose strings trace to boards. Eleven stage skills follow the loop of the paper Examined Design, with an entry point, the harness contract, drift, backlog and a standalone Jira planner.",
   "author": {
     "name": "VeghV03",
     "url": "https://github.com/VeghV03"
   },
   "keywords": [
     "ux",
-    "ui",
-    "design-system",
+    "design",
     "prototype",
+    "ai",
+    "decision-log",
     "audit",
     "accessibility",
-    "handoff",
-    "harness",
-    "design-ops",
-    "design-engineering",
     "claude-code",
-    "jira",
     "backlog",
-    "planning"
+    "jira"
   ],
   "license": "MIT",
   "skills": [

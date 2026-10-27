@@ -1,23 +1,24 @@
 {
-  "name": "measured-design",
-  "version": "1.0.0",
-  "description": "Checks that print a number about screens you already have \u2014 contrast, overflow, target size, reduced motion, language, structure, density, dead links \u2014 against a folder of built pages or a running app. Baseline what is already there so the count can only go down.",
+  "name": "examined-design",
+  "version": "2.0.0",
+  "description": "A single-file prototype harness and thirteen checks for designing with an AI model, so that every claim on a screen or in the record says what it rests on and a person answers for it. Checks refute; each says what it cannot see. Baseline what is there so the count can only come down.",
   "type": "module",
   "bin": {
-    "measured-design": "./cli/measured-design.mjs"
+    "examined": "./cli/examined.mjs"
   },
   "files": [
     "cli/",
-    "scaffold/",
+    "checks/",
+    "harness/",
+    "backlog/",
     "skills/",
     "commands/",
     "AGENTS.md",
-    "PAIRING.md",
     "LICENSE",
-    "licenses/",
     "!**/__pycache__/**",
     "!**/*.pyc",
-    "!**/.DS_Store"
+    "!**/.DS_Store",
+    "!checks/node_modules/**"
   ],
   "engines": {
     "node": ">=18"
@@ -26,19 +27,19 @@
     "playwright": "^1.47.0"
   },
   "keywords": [
+    "ux",
+    "design",
+    "prototype",
+    "ai",
+    "claude-code",
     "accessibility",
-    "a11y",
     "wcag",
     "contrast",
-    "design-system",
-    "ux",
     "audit",
-    "design-engineering",
-    "playwright",
     "baseline",
     "ratchet",
-    "regression",
-    "ci"
+    "decision-log",
+    "backlog"
   ],
   "license": "MIT",
   "author": "VeghV03",

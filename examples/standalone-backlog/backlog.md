@@ -27,7 +27,7 @@ Steps: Create an invoice, Send it, Chase an unpaid one, See what is owed.
 
 ### Create an invoice  ·  M  ·  blocked
 
-When I have done work for somebody and want the money, I want to create an invoice for it, so I can there is a document the client can pay against.
+When I have done work for somebody and want the money, I want to create an invoice for it, so I can give the client a document to pay against.
 
 Line items, a total, a due date and a client. What it must never do: send anything. Creating and sending are separate on purpose, because a half-written invoice reaching a client cannot be taken back.
 
@@ -37,7 +37,7 @@ Acceptance criteria
 - an invoice with no line items cannot be saved as ready to send
 - nothing falls off the frame at any supported width  [overflow]
 
-Criteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.
+Criteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.
 
 Size hint: M — 2 sub-tasks, 4 criteria, 1 blocker. A count, not an estimate.
 
@@ -48,7 +48,7 @@ Waits for: Add the business details (S-set-up-details)
 
 ### Send an invoice  ·  M  ·  blocked
 
-When an invoice is finished and I have checked it, I want to send it to the client, so I can the client has it and the clock starts.
+When an invoice is finished and I have checked it, I want to send it to the client, so I can start the clock on being paid.
 
 Sending is irreversible from the client's side. The screen exists mostly to carry that one sentence, and to show exactly what will be sent and to whom before it goes.
 
@@ -82,7 +82,7 @@ Waits for: Send an invoice (S-get-paid-send)
 
 ### See what is owed  ·  M  ·  blocked
 
-When I want to know where I stand, I want to see every unpaid invoice and what it adds up to, so I can I know whether to chase anybody this week.
+When I want to know where I stand, I want to see every unpaid invoice and what it adds up to, so I can decide whether to chase anybody this week.
 
 The one screen most people open daily. With six invoices it is a list; with six hundred it is unusable, so the density budget matters here more than anywhere else.
 
@@ -91,7 +91,7 @@ Acceptance criteria
 - overdue is distinguishable without relying on colour alone  [structure]
 - the list stays usable at the real number of invoices, not the demo number  [density]
 
-Criteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.
+Criteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.
 
 Size hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.
 
@@ -106,7 +106,7 @@ Steps: Add the business details, Connect a bank account.
 
 ### Add the business details  ·  M  ·  blocked
 
-When I have signed up and nothing is filled in yet, I want to add the business details that appear on an invoice, so I can an invoice I send looks like it came from a real business.
+When I have signed up and nothing is filled in yet, I want to add the business details that appear on an invoice, so I can send invoices that look like they came from a real business.
 
 Name, address, tax number and logo. These appear on every invoice, so an invoice cannot be sent before this exists. The brief does not say which fields are legally required and that varies by country — see the spike.
 
@@ -115,7 +115,7 @@ Acceptance criteria
 - leaving it half-finished and coming back does not lose what was typed
 - every field has a label a screen reader can read  [structure]
 
-Criteria marked with a check in brackets are proved by that harness, not by opinion. Run them before closing this.
+Criteria marked with a check in brackets are tested by that check. A pass means not refuted on that condition, not that the criterion holds; the rest needs a person to look. Run the checks before closing this.
 
 Size hint: M — 2 sub-tasks, 3 criteria, 1 blocker. A count, not an estimate.
 

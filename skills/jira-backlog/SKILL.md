@@ -1,6 +1,6 @@
 ---
 name: jira-backlog
-description: Turn a brief, a running app, or a codebase into a Jira structure — epics, stories, sub-tasks and decision spikes, with real dependencies, build order, and stories written well enough that somebody can build from them without asking. Produces a reviewable file and a Jira CSV, never a surprise board. Use when asked to plan work, break a product into tickets, build a backlog or a roadmap, or turn a spec into Jira.
+description: Turn a brief, a running app, or a codebase into a Jira structure — epics, stories, sub-tasks and decision spikes, with real dependencies, build order, and stories written well enough that somebody can build from them without asking. Produces a reviewable file and a Jira CSV, never a surprise board. Use when asked to plan work, break a product into tickets, build a backlog or a roadmap, or turn a spec into Jira. If the project has an examined-design prototype, use examined-design-backlog instead.
 ---
 # Turn a product into a backlog somebody can build from
 
@@ -38,11 +38,19 @@ None of this can be guessed, and every one of them silently breaks an import:
   will reject the whole import.
 - **Labels** to apply to everything.
 
-Write the answers to `backlog.config.json`. The shape is in `scaffold/backlog/README.md`.
+Write the answers to `backlog.config.json`. The shape is in `backlog/README.md`.
 
 Ask these **per project**. Do not carry an answer over from the last one.
 
 ## 2 · Read the source
+
+### An examined-design prototype
+
+Use examined-design-backlog. Everything the plan needs is already in the prototype's DATA: journeys
+become epics, steps become stories, boards become sub-tasks with their required text quoted and
+pointed at the board, open decisions become spikes. `python3 backlog/build_backlog.py --prototype
+prototype.html` writes the same four files as below. The rest of this skill still applies to reading
+what it wrote.
 
 ### A brief, PRD or spec
 
@@ -56,7 +64,7 @@ output.
 
 ### A running app
 
-Crawl it. `scaffold/harnesses/lib.mjs` already does this — point `target` at
+Crawl it. `checks/lib.mjs` already does this — point `target` at
 `{ "mode": "crawl", "start": "http://localhost:3000" }` and it returns every same-origin page with a
 name. Each page is a candidate sub-task; the link graph is the dependency graph; pages that share a
 path prefix are usually one epic.
@@ -114,10 +122,12 @@ Under the frame, the body says what somebody actually needs in order to build it
 - what it looks like with nothing in it, and what it says when it fails
 - what it assumes already exists
 
-Then acceptance criteria — a checklist, and **anything a test can prove names the check that proves
-it**. In a measured-design project those are the harnesses (`contrast`, `structure`, `overflow`,
+Then acceptance criteria — a checklist, and **anything a check can test names the check that tests
+it**. In an examined-design project those are the checks (`contrast`, `structure`, `overflow`,
 `target-size`, `routes`, `vocab`). In any other project they are that project's tests and linters.
-A criterion that can only be settled by opinion is fine; it just should not pretend otherwise.
+A check refutes; it never proves. A pass means "not refuted on this one condition", so a criterion
+that names a check is not settled by a green run alone. A criterion that can only be settled by
+opinion is fine; it just should not pretend otherwise.
 
 Do not pad. Four criteria that matter beat twelve that recite the definition of done.
 
@@ -127,7 +137,7 @@ tickets obey it too. The backlog should speak the same language as the interface
 ## 6 · Emit, read, then import
 
 ```sh
-python3 scaffold/backlog/build_backlog.py --plan backlog.plan.json
+python3 backlog/build_backlog.py --plan backlog.plan.json
 ```
 
 Writes `backlog.json` (canonical, diff this), `jira.csv` (the import), `backlog.md` (read this), and
@@ -141,8 +151,8 @@ Then import the CSV — or create the issues directly:
 
 ```sh
 export JIRA_BASE_URL=... JIRA_EMAIL=... JIRA_API_TOKEN=...
-python3 scaffold/backlog/build_backlog.py --plan backlog.plan.json --push --dry-run
-python3 scaffold/backlog/build_backlog.py --plan backlog.plan.json --push
+python3 backlog/build_backlog.py --plan backlog.plan.json --push --dry-run
+python3 backlog/build_backlog.py --plan backlog.plan.json --push
 ```
 
 `--push` creates and never edits, checks the project and every issue type before sending anything,
@@ -162,22 +172,16 @@ into `backlog.keys.json` after importing and the map keeps the generated plan an
 A unit that disappears keeps its entry if it was ever imported. The plan can forget a story; Jira
 cannot, and somebody has to go and close it.
 
-## Skills to invoke
+## Questions to run alongside
 
-- `design-research-jobs-to-be-done` — the job story frame, and what makes a trigger real
-- `ux-strategy-information-architecture` — grouping, when the epics are not obvious from the source
-- `cross-functional-alignment-decision-log` — the shape of a decision worth blocking work on
-- `design-ops-handoff-spec` — what a ticket has to carry for somebody to build without asking
-- `prototyping-testing-user-flow-diagram` — recovering the flow when the source is a crawl or a codebase
+- Which blocker actually sets the delivery date, and which fifteen only feel urgent?
+- What does this split into epics do to the second sprint, not the first?
+- An epic is also a decision not to build something else. Which?
+- Which of these tickets is expensive to be wrong about, and should be a spike instead?
 
-Thinking, run alongside:
-
-- `thinking-theory-of-constraints` — the blocker that actually sets the delivery date, versus the
-  fifteen that feel urgent
-- `thinking-second-order` — what a split into these epics does to the second sprint, not the first
-- `thinking-opportunity-cost` — an epic is also a decision not to build something else
-- `thinking-reversibility` — which of these tickets is expensive to be wrong about, and should be a
-  spike instead
+If the project is designed with examined-design, its stage skills hold the rest: examined-design-decide
+for the decisions worth blocking work on, examined-design-ship for what a ticket must carry for
+somebody to build without asking.
 
 ## Stop condition
 

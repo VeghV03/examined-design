@@ -1,0 +1,116 @@
+/* plain — the demo's design system. Boards are drawn with these classes and nothing else.
+   It is deliberately small: a window, a sidebar, buttons, a table, a dialog, the states a
+   read can be in. Replace it with your own product's system; keep the token names or
+   change them, the viewer never reads them.
+
+   Themes are tokens on .win; the viewer toggles .theme-dark on every .win it shows.
+   Every muted text colour here is chosen to clear 4.5:1 on its own ground in both themes,
+   because the checks will run on whatever you draw with it. */
+
+.win{
+  --bg:#ffffff;        --fg:#1b1a18;       --muted:#5f5d58;    --sidebar:#f7f6f3;
+  --line:#e6e4df;      --line-strong:#8a8780;                  --surface:#ffffff;
+  --primary:#1b1a18;   --primary-fg:#fafaf8;
+  --danger:#b3261e;    --danger-tint:#fbeceb;                  --warn:#8a5300;
+  --warn-tint:#fbf3e4; --ok:#2f6f4a;       --info:#1f5fa8;     --info-tint:#ecf3fb;
+  --skeleton:#efeeea;  --scrim:rgba(20,19,17,.45);             --focus:#1f5fa8;
+}
+.win.theme-dark{
+  --bg:#171716;        --fg:#edece8;       --muted:#a8a6a0;    --sidebar:#1d1d1b;
+  --line:#2e2d2a;      --line-strong:#8c8a84;                  --surface:#22211f;
+  --primary:#edece8;   --primary-fg:#171716;
+  --danger:#f2a29b;    --danger-tint:#3a2220;                  --warn:#f0b75a;
+  --warn-tint:#33291a; --ok:#8fd1a8;       --info:#9cc4f2;     --info-tint:#1d2a3a;
+  --skeleton:#34332f;  --scrim:rgba(0,0,0,.6);                 --focus:#9cc4f2;
+}
+
+.p-stage,.p-stage *,.p-alone,.p-alone *{box-sizing:border-box}
+.win{width:var(--fw,1280px);height:var(--fh,800px);display:flex;flex-direction:column;overflow:hidden;
+  position:relative;background:var(--bg);color:var(--fg);
+  font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.win svg{display:block}
+.titlebar{height:34px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;
+  background:var(--sidebar);border-bottom:1px solid var(--line)}
+.tl{width:11px;height:11px;border-radius:999px;background:var(--line-strong);opacity:.55}
+.frame{flex:1;display:flex;min-height:0}
+
+/* sidebar */
+.side{width:232px;flex:none;background:var(--sidebar);border-right:1px solid var(--line);
+  padding:14px 12px;display:flex;flex-direction:column;gap:14px}
+.brand{font-weight:650;font-size:14px;padding:0 6px}
+.nav{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:6px;color:var(--muted)}
+.nav[aria-current="page"]{background:color-mix(in oklab,var(--fg) 7%,transparent);color:var(--fg);font-weight:550}
+.navs{display:flex;flex-direction:column;gap:2px}
+.store{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px;
+  background:var(--surface);margin-top:auto}
+.store .t{font-size:12px;font-weight:600}
+.store .n{font-size:13px}
+.store .m{font-size:12px;color:var(--muted)}
+.bar{height:5px;border-radius:999px;background:var(--skeleton);overflow:hidden}
+.bar>div{height:100%;background:var(--fg)}
+
+/* main column */
+.main{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px;padding:18px 26px;overflow:hidden}
+.top{display:flex;align-items:center;gap:10px}
+.search{flex:1;height:34px;border:1px solid var(--line-strong);border-radius:7px;display:flex;align-items:center;
+  gap:8px;padding:0 10px;color:var(--muted)}
+.h1{font-size:22px;font-weight:650;margin:0;letter-spacing:-.01em}
+.lede{margin:0;color:var(--muted);max-width:60ch}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+/* buttons */
+.btn{height:32px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;
+  border-radius:7px;border:1px solid transparent;font:inherit;font-size:13px;font-weight:550;white-space:nowrap}
+.btn.primary{background:var(--primary);color:var(--primary-fg)}
+.btn.outline{border-color:var(--line-strong);background:var(--bg);color:var(--fg)}
+.btn.ghost{color:var(--muted)}
+.btn.destructive{background:var(--danger-tint);color:var(--danger)}
+.btn.sm{height:28px;padding:0 10px;font-size:12px}
+.btn[aria-disabled="true"]{opacity:.5}
+
+/* list */
+.tbl{border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.tr{display:grid;grid-template-columns:minmax(0,1fr) 150px 90px 110px;gap:12px;align-items:center;
+  padding:10px 14px;border-top:1px solid var(--line)}
+.tr:first-child{border-top:0}
+.tr.th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;
+  background:var(--sidebar)}
+.name{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{display:inline-flex;align-items:center;max-width:100%;border:1px solid var(--line-strong);border-radius:999px;
+  padding:0 8px;height:22px;font-size:12px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* read states */
+.skel{display:block;height:10px;border-radius:5px;background:var(--skeleton)}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.banner{display:flex;align-items:flex-start;gap:10px;border-radius:9px;padding:11px 14px;border:1px solid var(--line)}
+.banner.bad{background:var(--danger-tint);border-color:color-mix(in oklab,var(--danger) 40%,var(--line))}
+.banner.info{background:var(--info-tint);border-color:color-mix(in oklab,var(--info) 35%,var(--line))}
+.banner.warn{background:var(--warn-tint);border-color:color-mix(in oklab,var(--warn) 40%,var(--line))}
+.banner .t{font-weight:600}
+.banner .m{font-size:13px;color:var(--muted)}
+.empty{margin:auto;max-width:420px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.empty .glyph{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;
+  justify-content:center;color:var(--muted)}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.win *{animation:none!important;transition:none!important}}
+
+/* dialogs */
+.scrim{position:absolute;inset:0;background:var(--scrim)}
+.dialog{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:460px;background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.dialog .h{font-size:16px;font-weight:650;margin:0}
+.wont{background:var(--sidebar);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.wont .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.wont ul{margin:6px 0 0;padding-left:18px}
+.checking{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;
+  color:var(--muted);font-size:13px}
+.actions{display:flex;justify-content:flex-end;gap:8px}
+
+/* a zone where the product's mechanism may be named (the vocabulary policy's "advanced" zone) */
+.adv{border-top:1px solid var(--line);padding-top:12px}
+.adv code{font-size:12px}

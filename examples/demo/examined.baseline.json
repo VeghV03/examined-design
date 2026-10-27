@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "recordedAt": "2026-10-27T17:55:12.269Z",
+  "checks": [
+    {
+      "check": "cellfit",
+      "affected": 0
+    },
+    {
+      "check": "contrast-dark",
+      "affected": 0
+    },
+    {
+      "check": "contrast-light",
+      "affected": 0
+    },
+    {
+      "check": "density",
+      "affected": 0
+    },
+    {
+      "check": "lang",
+      "affected": 0
+    },
+    {
+      "check": "motion",
+      "affected": 0
+    },
+    {
+      "check": "offline",
+      "affected": 0
+    },
+    {
+      "check": "overflow",
+      "affected": 0
+    },
+    {
+      "check": "routes",
+      "affected": 0
+    },
+    {
+      "check": "structure",
+      "affected": 0
+    },
+    {
+      "check": "target-size",
+      "affected": 0
+    },
+    {
+      "check": "translucency",
+      "affected": 0
+    },
+    {
+      "check": "vocab",
+      "affected": 0
+    }
+  ],
+  "findings": {}
+}

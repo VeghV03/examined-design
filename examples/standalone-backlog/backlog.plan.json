@@ -13,7 +13,7 @@
       "name": "Add the business details",
       "job": { "when": "I have signed up and nothing is filled in yet",
                "want": "add the business details that appear on an invoice",
-               "so": "an invoice I send looks like it came from a real business" },
+               "so": "send invoices that look like they came from a real business" },
       "body": "Name, address, tax number and logo. These appear on every invoice, so an invoice cannot be sent before this exists. The brief does not say which fields are legally required and that varies by country — see the spike.",
       "criteria": [
         { "text": "the form states which fields appear on the invoice and which are for our records only" },
@@ -50,7 +50,7 @@
       "name": "Create an invoice",
       "job": { "when": "I have done work for somebody and want the money",
                "want": "create an invoice for it",
-               "so": "there is a document the client can pay against" },
+               "so": "give the client a document to pay against" },
       "body": "Line items, a total, a due date and a client. What it must never do: send anything. Creating and sending are separate on purpose, because a half-written invoice reaching a client cannot be taken back.",
       "criteria": [
         { "text": "nothing leaves the system from this screen — sending is a separate, deliberate action" },
@@ -70,7 +70,7 @@
       "name": "Send an invoice",
       "job": { "when": "an invoice is finished and I have checked it",
                "want": "send it to the client",
-               "so": "the client has it and the clock starts" },
+               "so": "start the clock on being paid" },
       "body": "Sending is irreversible from the client's side. The screen exists mostly to carry that one sentence, and to show exactly what will be sent and to whom before it goes.",
       "criteria": [
         { "text": "the client's email address is shown in full, next to the confirm action" },
@@ -105,7 +105,7 @@
       "name": "See what is owed",
       "job": { "when": "I want to know where I stand",
                "want": "see every unpaid invoice and what it adds up to",
-               "so": "I know whether to chase anybody this week" },
+               "so": "decide whether to chase anybody this week" },
       "body": "The one screen most people open daily. With six invoices it is a list; with six hundred it is unusable, so the density budget matters here more than anywhere else.",
       "criteria": [
         { "text": "the outstanding total is visible without scrolling" },

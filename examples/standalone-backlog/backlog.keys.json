@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "mappedAt": "2026-09-17",
+  "mappedAt": "2026-10-27",
   "units": {
     "epic:get-paid": {
       "issue_id": "E-get-paid",
@@ -23,7 +23,7 @@
     "story:set-up/details": {
       "issue_id": "S-set-up-details",
       "summary": "Add the business details",
-      "hash": "6e4e9bc9a064",
+      "hash": "b00caee5a4ce",
       "jira": null
     },
     "subtask:details-form": {
@@ -59,7 +59,7 @@
     "story:get-paid/create": {
       "issue_id": "S-get-paid-create",
       "summary": "Create an invoice",
-      "hash": "e32bdf424ff0",
+      "hash": "9aa077027165",
       "jira": null
     },
     "subtask:invoice-new": {
@@ -77,7 +77,7 @@
     "story:get-paid/send": {
       "issue_id": "S-get-paid-send",
       "summary": "Send an invoice",
-      "hash": "6969eca01560",
+      "hash": "b044076a3af4",
       "jira": null
     },
     "subtask:invoice-send": {
@@ -101,7 +101,7 @@
     "story:get-paid/owed": {
       "issue_id": "S-get-paid-owed",
       "summary": "See what is owed",
-      "hash": "81873373d7ff",
+      "hash": "48975a2309ef",
       "jira": null
     },
     "subtask:owed-list": {
